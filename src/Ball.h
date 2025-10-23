@@ -5,6 +5,9 @@
 #include "Paddle_CPU.h"
 #include "Blocks.h"
 
+#include <raylib.h>
+#include <iostream>
+
 
 
 
