@@ -13,6 +13,8 @@ class Window
 {
 public:
 
+int screen_width = 1400;
+int screen_height = 900;
 
 
 };
