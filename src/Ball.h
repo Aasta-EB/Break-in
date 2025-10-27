@@ -52,7 +52,7 @@ public:
 
 			if (player_score == 0)
 			{
-				DrawText("Left Player Wins", 90, GetScreenHeight() / 2 - 30, 60, YELLOW);
+				DrawText("Left Player Wins", 50, GetScreenHeight() / 2 - 30, 60, YELLOW);
 			}
 
 			else {
