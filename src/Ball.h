@@ -5,16 +5,22 @@
 #include "Paddle_CPU.h"
 #include "Blocks.h"
 
+#include <algorithm>
 #include <raylib.h>
 #include <iostream>
+#include <string>
+
 
 
 class Ball {
 public:
 
+	bool player_alive = true;
+	bool playerTwo_alive = true;
 
-	int player_score = 0;
-	int playerTwo_score = 0;
+
+	int player_score = 5;
+	int playerTwo_score = 5;
 
 	int radius = 15;
 	float x = GetScreenWidth() / 2; //needs to fetch window width and window height from window class
@@ -41,16 +47,38 @@ public:
 		if (x + radius >= GetScreenWidth())
 
 		{
-			playerTwo_score++;
-			ResetBall();
+			playerTwo_score--;
+			playerTwo_score = std::max(playerTwo_score, 0);
+
+			if (playerTwo_score == 0)
+			{
+				DrawText("Left Player Wins", 100, GetScreenHeight() / 2 - 30, 60, YELLOW);
+			}
+
+			else {
+				ResetBall();
+			}
+			
+
+
 		}
 		if (x - radius <= 0)
 		{
-			player_score++;
-			ResetBall();
+			player_score--;
+			player_score = std::max(player_score, 0);
+
+			if (player_score == 0)
+			{
+				DrawText("Right Player Wins", GetScreenWidth() / 2 + 100, GetScreenHeight() / 2 - 30, 60, YELLOW);
+			} 
+
+			else {
+				ResetBall();
+			}
 		}
 
 	}
+
 
 	// needs breakout reset position
 	void ResetBall()
