@@ -28,6 +28,7 @@ int main()
 	InitWindow(value.screen_width, value.screen_height, "Break-in!");
 	SetTargetFPS(60);
 
+	brick.initialize();
 
 	while (WindowShouldClose() == false)
 	{
@@ -64,6 +65,7 @@ int main()
 		ball.Draw();
 		player.Draw();
 		playerTwo.Draw();
+		brick.Draw();
 
 		//Score text
 		DrawText(TextFormat("%i", ball.playerTwo_score), value.screen_width / 4 - 20, 20, 80, WHITE);

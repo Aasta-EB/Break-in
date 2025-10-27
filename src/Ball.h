@@ -23,8 +23,8 @@ public:
 	int playerTwo_score = 5;
 
 	int radius = 15;
-	float x = GetScreenWidth() / 2; //needs to fetch window width and window height from window class
-	float y = GetScreenHeight() / 2;
+	float x = 1400 / 2; //needs to fetch window width and window height from window class
+	float y = 900 / 2;
 	int speed_x = 7;
 	int speed_y = 7;
 
@@ -44,39 +44,40 @@ public:
 
 		}
 
-		if (x + radius >= GetScreenWidth())
+		if (x + radius >= 1400)
 
-		{
-			playerTwo_score--;
-			playerTwo_score = std::max(playerTwo_score, 0);
-
-			if (playerTwo_score == 0)
-			{
-				DrawText("Left Player Wins", 100, GetScreenHeight() / 2 - 30, 60, YELLOW);
-			}
-
-			else {
-				ResetBall();
-			}
-			
-
-
-		}
-		if (x - radius <= 0)
 		{
 			player_score--;
 			player_score = std::max(player_score, 0);
 
 			if (player_score == 0)
 			{
-				DrawText("Right Player Wins", GetScreenWidth() / 2 + 100, GetScreenHeight() / 2 - 30, 60, YELLOW);
-			} 
+				DrawText("Left Player Wins", 90, GetScreenHeight() / 2 - 30, 60, YELLOW);
+			}
 
 			else {
 				ResetBall();
 			}
 		}
 
+		if (x - radius <= 0)
+		
+		{
+			playerTwo_score--;
+			playerTwo_score = std::max(playerTwo_score, 0);
+
+			if (playerTwo_score == 0)
+			{
+				DrawText("Right Player Wins", GetScreenWidth() / 2 + 100, GetScreenHeight() / 2 - 30, 60, YELLOW);
+			}
+
+			else {
+				ResetBall();
+			}
+
+
+
+		}
 	}
 
 
