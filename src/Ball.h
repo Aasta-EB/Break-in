@@ -15,9 +15,6 @@
 class Ball {
 public:
 
-	bool player_alive = true;
-	bool playerTwo_alive = true;
-
 
 	int player_score = 5;
 	int playerTwo_score = 5;

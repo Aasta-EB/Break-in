@@ -44,17 +44,17 @@ int main()
 		
 
 		
-			// Checking for collision player 1
-			if (CheckCollisionCircleRec(Vector2{ ball.x, ball.y }, ball.radius, Rectangle{ player.x, player.y, player.width, player.height }))
-			{
-				ball.speed_x *= -1;
-			}
+		// Checking for collision player 1
+		if (CheckCollisionCircleRec(Vector2{ ball.x, ball.y }, ball.radius, Rectangle{ player.x, player.y, player.width, player.height }))
+		{
+		ball.speed_x *= -1;
+		}
 
-			// Checking for collision player 2
-			if (CheckCollisionCircleRec(Vector2{ ball.x, ball.y }, ball.radius, Rectangle{ playerTwo.x, playerTwo.y, playerTwo.width, playerTwo.height }))
-			{
-				ball.speed_x *= -1;
-			}
+		// Checking for collision player 2
+		if (CheckCollisionCircleRec(Vector2{ ball.x, ball.y }, ball.radius, Rectangle{ playerTwo.x, playerTwo.y, playerTwo.width, playerTwo.height }))
+		{
+		ball.speed_x *= -1;
+		}
 
 			
 		
