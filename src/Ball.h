@@ -30,6 +30,7 @@ public:
 	{
 		DrawCircle(x, y, radius, WHITE);
 	}
+
 	void Update()
 	{
 		x += speed_x;
