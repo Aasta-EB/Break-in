@@ -44,8 +44,8 @@ int main()
 		// Updating
 		player.Update();
 		playerTwo.Update();
-		ball.Update(player_score, playerTwo_score);
-		ballTwo.Update(player_score, playerTwo_score);
+		ball.Update(player_score, playerTwo_score, player.x - 15, player.y + player.height/2);
+		ballTwo.Update(player_score, playerTwo_score, playerTwo.x + playerTwo.width + 15, playerTwo.y + playerTwo.height/2);
 	
 
 		

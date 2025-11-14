@@ -22,6 +22,7 @@ public:
 	float y = 900 / 2;
 	int speed_x = 7;
 	int speed_y = 7;
+	bool has_been_shot = false;
 
 	Ball(int xPosition, int yPosition)
 	{
@@ -36,8 +37,15 @@ public:
 		DrawCircle(x, y, radius, WHITE);
 	}
 
-	void Update(int& player_score, int& playerTwo_score)
+	void Update(int& player_score, int& playerTwo_score, int heldPositionX, int heldPositionY)
 	{
+		if (!has_been_shot)
+		{
+			x = heldPositionX;
+			y = heldPositionY;
+			return;
+		}
+
 		x += speed_x;
 		y += speed_y;
 
