@@ -17,10 +17,18 @@ public:
 
 
 	int radius = 15;
+
 	float x = 1400 / 2; //needs to fetch window width and window height from window class
 	float y = 900 / 2;
 	int speed_x = 7;
 	int speed_y = 7;
+
+	Ball(int xPosition, int yPosition)
+	{
+		x = xPosition;
+		y = yPosition;
+
+	}
 
 
 	void Draw()
