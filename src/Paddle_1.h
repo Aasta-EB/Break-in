@@ -53,7 +53,7 @@ public:
 
 		if (IsKeyDown(KEY_RIGHT_SHIFT))
 		{
-			ball.has_been_shot = true;
+			ball.Shoot();
 
 		}
 

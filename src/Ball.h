@@ -67,7 +67,7 @@ public:
 			}
 
 			else {
-				ResetBall();
+				ResetBall(heldPositionX, heldPositionY);
 			}
 		}
 
@@ -83,7 +83,7 @@ public:
 			}
 
 			else {
-				ResetBall();
+				ResetBall(heldPositionX, heldPositionY);
 			}
 
 
@@ -92,11 +92,20 @@ public:
 	}
 
 
-	// needs breakout reset position
-	void ResetBall()
+	void Shoot()
 	{
-		x = GetScreenWidth() / 2;
-		y = GetScreenHeight() / 2;
+		has_been_shot = true;
+
+	}
+
+
+
+	// needs breakout reset position
+	void ResetBall(int heldPositionX, int heldPositionY)
+	{
+		has_been_shot = false;
+		x = heldPositionX;
+		y = heldPositionY;
 
 		int speed_choices[2] = { -1, 1 };
 		speed_x *= speed_choices[GetRandomValue(0, 1)];

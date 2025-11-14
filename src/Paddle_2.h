@@ -54,7 +54,7 @@ public:
 
 		if (IsKeyDown(KEY_Q))
 		{
-			ballTwo.has_been_shot = true;
+			ballTwo.Shoot();
 
 		}
 
