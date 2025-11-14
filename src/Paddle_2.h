@@ -8,7 +8,7 @@
 #include <raylib.h>
 #include <iostream>
 
-
+extern Ball ballTwo;
 
 class Paddle_2
 {
@@ -51,6 +51,13 @@ public:
 		{
 			y = GetScreenHeight() - height;
 		}
+
+		if (IsKeyDown(KEY_Q))
+		{
+			ballTwo.has_been_shot = true;
+
+		}
+
 	}
 
 };

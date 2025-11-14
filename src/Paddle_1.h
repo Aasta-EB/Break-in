@@ -8,7 +8,7 @@
 #include <raylib.h>
 #include <iostream>
 
-
+extern Ball ball;
 
 class Paddle_1
 {
@@ -25,7 +25,7 @@ public:
 
 	void Draw()
 	{
-
+		ball.Draw();
 		DrawRectangleRounded(Rectangle{ x, y, width, height}, 0.8, 0, WHITE);
 	}
 
@@ -50,5 +50,13 @@ public:
 		{
 			y = GetScreenHeight() - height;
 		}
+
+		if (IsKeyDown(KEY_RIGHT_SHIFT))
+		{
+			ball.has_been_shot = true;
+
+		}
+
+
 	}
 };

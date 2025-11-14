@@ -16,6 +16,10 @@ int player_score = 5;
 int playerTwo_score = 5;
 
 Window value;
+Paddle_1 player;
+Paddle_2 playerTwo;
+Ball ball(player.x - 30, player.y);
+Ball ballTwo(playerTwo.x + 30, playerTwo.y);
 Blocks brick;
 
 //Game state
@@ -26,10 +30,6 @@ int main()
 
 	cout << "Starting the game" << endl;
 	InitWindow(value.screen_width, value.screen_height, "Break-in!");
-	Paddle_1 player;
-	Paddle_2 playerTwo;
-	Ball ball(player.x -30, player.y);
-	Ball ballTwo(playerTwo.x + 30, playerTwo.y);
 
 	SetTargetFPS(60);
 
