@@ -12,6 +12,9 @@
 using namespace std;
 
 
+int player_score = 5;
+int playerTwo_score = 5;
+
 Window value;
 Ball ball;
 Paddle_1 player;
@@ -37,7 +40,7 @@ int main()
 		BeginDrawing();
 
 		// Updating
-		ball.Update();
+		ball.Update(player_score, playerTwo_score);
 		player.Update();
 		playerTwo.Update();
 
@@ -68,8 +71,8 @@ int main()
 		brick.Draw();
 
 		//Score text
-		DrawText(TextFormat("%i", ball.playerTwo_score), value.screen_width / 4 - 20, 20, 80, WHITE);
-		DrawText(TextFormat("%i", ball.player_score), 3 * value.screen_width / 4 - 20, 20, 80, WHITE);
+		DrawText(TextFormat("%i", playerTwo_score), value.screen_width / 4 - 20, 20, 80, WHITE);
+		DrawText(TextFormat("%i", player_score), 3 * value.screen_width / 4 - 20, 20, 80, WHITE);
 		EndDrawing();
 
 

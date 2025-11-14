@@ -16,9 +16,6 @@ class Ball {
 public:
 
 
-	int player_score = 5;
-	int playerTwo_score = 5;
-
 	int radius = 15;
 	float x = 1400 / 2; //needs to fetch window width and window height from window class
 	float y = 900 / 2;
@@ -31,7 +28,7 @@ public:
 		DrawCircle(x, y, radius, WHITE);
 	}
 
-	void Update()
+	void Update(int& player_score, int& playerTwo_score)
 	{
 		x += speed_x;
 		y += speed_y;
