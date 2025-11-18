@@ -10,7 +10,10 @@
 #include <raylib.h>
 #include <iostream>
 
-
+typedef struct Brick {
+	Rectangle position;
+	bool active;
+} Brick;
 
 class Blocks
 {
@@ -20,7 +23,7 @@ public:
 	int columns = 4;
 	int brickWidth = 40;
 	int brickHeight = 70;
-	std::vector<Rectangle> bricks;
+	std::vector<Brick> bricks;
 
 	void initialize()
 	{
@@ -29,7 +32,7 @@ public:
 		{
 			for (int j = 0; j < columns; j++)
 			{
-				Rectangle brick = { j * (brickWidth + 5) + 1400/2 - 88, i * (brickHeight + 5), brickWidth, brickHeight};
+				Brick brick = {{j * (brickWidth + 5) + 1400 / 2 - 88, i * (brickHeight + 5), brickWidth, brickHeight}, true};
 				bricks.push_back(brick);
 			}
 		}
@@ -38,8 +41,12 @@ public:
 
 	void Draw()
 	{
-		for (Rectangle b : bricks) {
-			DrawRectangle(b.x, b.y, b.width, b.height, RED);
+		for (Brick b : bricks) {
+
+			if (b.active)
+			{
+				DrawRectangle(b.position.x, b.position.y, brickWidth, brickHeight, RED);
+			}
 		}
 	}
 };

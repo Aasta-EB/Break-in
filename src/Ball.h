@@ -10,7 +10,7 @@
 #include <iostream>
 #include <string>
 
-
+extern Blocks brick;
 
 class Ball {
 public:
@@ -72,7 +72,7 @@ public:
 		}
 
 		if (x - radius <= 0)
-		
+
 		{
 			playerTwo_score--;
 			playerTwo_score = std::max(playerTwo_score, 0);
@@ -89,11 +89,61 @@ public:
 
 
 		}
+
+		for (Brick b : brick.bricks)
+		{
+			if (!b.active)
+			{
+				continue;
+			}
+
+			// Hit below
+			if (((y - radius) <= (b.position.y + brick.brickHeight / 2)) &&
+				((y - radius) > (b.position.y + brick.brickHeight / 2 + speed_y)) &&
+				((fabs(x - b.position.x)) < (brick.brickWidth / 2 + radius * 2 / 3)) && (speed_y < 0))
+			{
+				b.active = false;
+				speed_y *= -1;
+			}
+
+
+			// Hit above
+			else if (((y + radius) >= (b.position.y - brick.brickHeight / 2)) &&
+				((y + radius) < (b.position.y - brick.brickHeight / 2 + speed_y)) &&
+				((fabs(x - b.position.x)) < (brick.brickWidth / 2 + radius * 2 / 3)) && (speed_y > 0))
+			{
+				b.active = false;
+				speed_y *= -1;
+			}
+
+
+			// Hit left
+			else if (((x + radius) >= (b.position.x - brick.brickWidth / 2)) &&
+				((x + radius) < (b.position.x - brick.brickWidth / 2 + speed_x)) &&
+				((fabs(y - b.position.y)) < (brick.brickHeight / 2 + radius * 2 / 3)) && (speed_x > 0))
+			{
+				b.active = false;
+				speed_x *= -1;
+			}
+
+
+			// Hit right
+			else if (((x + radius) <= (b.position.x - brick.brickWidth / 2)) &&
+				((x + radius) > (b.position.x - brick.brickWidth / 2 + speed_x)) &&
+				((fabs(y - b.position.y)) < (brick.brickHeight / 2 + radius * 2 / 3)) && (speed_x < 0))
+			{
+				b.active = false;
+				speed_x *= -1;
+			}
+		}
+
 	}
+
 
 
 	void Shoot()
 	{
+		
 		has_been_shot = true;
 
 	}
