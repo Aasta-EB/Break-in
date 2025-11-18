@@ -41,11 +41,18 @@ public:
 
 	void Draw()
 	{
-		for (Brick b : bricks) {
+		for (int index = 0; index < bricks.size(); index++) {
 
-			if (b.active)
+			if (!bricks.at(index).active)
 			{
-				DrawRectangle(b.position.x, b.position.y, brickWidth, brickHeight, RED);
+				continue;
+			}
+
+			Brick currentBrix = bricks.at(index);
+			if (currentBrix.active)
+			{
+				//DrawRectangle(brick[i][j].position.x - brickSize.x / 2, brick[i][j].position.y - brickSize.y / 2, brickSize.x, brickSize.y, DARKGRAY)
+				DrawRectangle(currentBrix.position.x - brickWidth  / 2, currentBrix.position.y - brickHeight / 2, brickWidth, brickHeight, RED);
 			}
 		}
 	}
