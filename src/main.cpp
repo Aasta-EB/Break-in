@@ -20,7 +20,7 @@ Paddle_1 player;
 Paddle_2 playerTwo;
 Ball ball(player.x - 30, player.y);
 Ball ballTwo(playerTwo.x + 30, playerTwo.y);
-Blocks brick;
+Blocks blocks;
 
 //Game state
 
@@ -33,7 +33,7 @@ int main()
 
 	SetTargetFPS(60);
 
-	brick.initialize();
+	blocks.initialize();
 
 	while (WindowShouldClose() == false)
 	{
@@ -82,7 +82,7 @@ int main()
 		playerTwo.Draw();
 		ball.Draw();
 		ballTwo.Draw();
-		brick.Draw();
+		blocks.Draw();
 
 		//Score text
 		DrawText(TextFormat("%i", playerTwo_score), value.screen_width / 4 - 20, 20, 80, WHITE);

@@ -10,7 +10,7 @@
 #include <iostream>
 #include <string>
 
-extern Blocks brick;
+extern Blocks blocks;
 
 class Ball {
 public:
@@ -21,7 +21,7 @@ public:
 	float x = 1400 / 2; //needs to fetch window width and window height from window class
 	float y = 900 / 2;
 	int speed_x = 7;
-	int speed_y = 0;
+	int speed_y = 7;
 	bool has_been_shot = false;
 
 	Ball(int xPosition, int yPosition)
@@ -90,50 +90,50 @@ public:
 
 		}
 
-		for (int index = 0; index < brick.bricks.size(); index++)
+		for (int index = 0; index < blocks.bricks.size(); index++)
 		{
-			Brick currentBrix = brick.bricks.at(index);
-			if (!currentBrix.active)
+			Brick& brick = blocks.bricks.at(index);
+			if (!brick.active)
 			{
 				continue;
 			}
 
 			// Hit below
-			if (((y - radius) <= (currentBrix.position.y + brick.brickHeight / 2)) &&
-				((y - radius) > (currentBrix.position.y + brick.brickHeight / 2 + speed_y)) &&
-				((fabs(x - currentBrix.position.x)) < (brick.brickWidth / 2 + radius * 2 / 3)) && (speed_y < 0))
+			if (((y - radius) <= (brick.position.y + blocks.brickHeight / 2)) &&
+				((y - radius) > (brick.position.y + blocks.brickHeight / 2 + speed_y)) &&
+				((fabs(x - brick.position.x)) < (blocks.brickWidth / 2 + radius * 2 / 3)) && (speed_y < 0))
 			{
-				currentBrix.active = false;
+				brick.active = false;
 				speed_y *= -1;
 			}
 
 
 			// Hit above
-			else if (((y + radius) >= (currentBrix.position.y - brick.brickHeight / 2)) &&
-				((y + radius) < (currentBrix.position.y - brick.brickHeight / 2 + speed_y)) &&
-				((fabs(x - currentBrix.position.x)) < (brick.brickWidth / 2 + radius * 2 / 3)) && (speed_y > 0))
+			else if (((y + radius) >= (brick.position.y - blocks.brickHeight / 2)) &&
+				((y + radius) < (brick.position.y - blocks.brickHeight / 2 + speed_y)) &&
+				((fabs(x - brick.position.x)) < (blocks.brickWidth / 2 + radius * 2 / 3)) && (speed_y > 0))
 			{
-				currentBrix.active = false;
+				brick.active = false;
 				speed_y *= -1;
 			}
 
 
 			// Hit left
-			else if (((x + radius) >= (currentBrix.position.x - brick.brickWidth / 2)) &&
-				((x + radius) < (currentBrix.position.x - brick.brickWidth / 2 + speed_x)) &&
-				((fabs(y - currentBrix.position.y)) < (brick.brickHeight / 2 + radius * 2 / 3)) && (speed_x > 0))
+			else if (((x + radius) >= (brick.position.x - blocks.brickWidth / 2)) &&
+				((x + radius) < (brick.position.x - blocks.brickWidth / 2 + speed_x)) &&
+				((fabs(y - brick.position.y)) < (blocks.brickHeight / 2 + radius * 2 / 3)) && (speed_x > 0))
 			{
-				currentBrix.active = false;
+				brick.active = false;
 				speed_x *= -1;
 			}
 
 
 			// Hit right
-			else if (((x + radius) <= (currentBrix.position.x + brick.brickWidth / 2)) &&
-				((x + radius) > (currentBrix.position.x + brick.brickWidth / 2 + speed_x)) &&
-				((fabs(y - currentBrix.position.y)) < (brick.brickHeight / 2 + radius * 2 / 3)) && (speed_x < 0))
+			else if (((x + radius) <= (brick.position.x + blocks.brickWidth / 2)) &&
+				((x + radius) > (brick.position.x + blocks.brickWidth / 2 + speed_x)) &&
+				((fabs(y - brick.position.y)) < (blocks.brickHeight / 2 + radius * 2 / 3)) && (speed_x < 0))
 			{
-				currentBrix.active = false;
+				brick.active = false;
 				speed_x *= -1;
 			}
 		}
