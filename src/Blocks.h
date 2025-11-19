@@ -32,7 +32,7 @@ public:
 		{
 			for (int j = 0; j < columns; j++)
 			{
-				Brick blocks = {{j * (brickWidth + 5) + 1400 / 2 - 88, i * (brickHeight + 5), brickWidth, brickHeight}, true};
+				Brick blocks = {{j * (brickWidth + 5) + 1400 / 2 - 68, i * (brickHeight + 8), brickWidth, brickHeight}, true};
 				bricks.push_back(blocks);
 			}
 		}

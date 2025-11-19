@@ -23,6 +23,7 @@ public:
 	int speed_x = 7;
 	int speed_y = 7;
 	bool has_been_shot = false;
+	bool canBounce = true;
 
 	Ball(int xPosition, int yPosition)
 	{
@@ -129,7 +130,7 @@ public:
 
 
 			// Hit right
-			else if (((x + radius) <= (brick.position.x + blocks.brickWidth / 2)) &&
+			else if (((x + radius) <= (brick.position.x + blocks.brickWidth)) &&
 				((x + radius) > (brick.position.x + blocks.brickWidth / 2 + speed_x)) &&
 				((fabs(y - brick.position.y)) < (blocks.brickHeight / 2 + radius * 2 / 3)) && (speed_x < 0))
 			{
@@ -149,7 +150,19 @@ public:
 
 	}
 
+	bool Can_Bounce()
+	{
 
+		return canBounce;
+
+	}
+
+	void Toggle_Bounce()
+	{
+
+		canBounce = !canBounce;
+
+	}
 
 	// needs breakout reset position
 	void ResetBall(int heldPositionX, int heldPositionY)
