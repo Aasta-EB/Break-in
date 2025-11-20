@@ -6,6 +6,7 @@
 #include "Blocks.h"
 
 #include <raylib.h>
+#include <raymath.h>
 #include <iostream>
 
 extern Ball ball;
@@ -32,15 +33,42 @@ public:
 	{
 		ballTwo.Shoot();
 
-		if (y + height / 2 > ballTwo.y)
+
+		Vector2 playerPostion{ x, y };
+		Vector2 ballOnePosition{ ball.x, ball.y };
+		Vector2 ballTwoPosition{ ballTwo.x, ballTwo.y };
+
+		float distanceToBallONE = Vector2Distance(playerPostion, ballOnePosition);
+		float distanceToBallTWO = Vector2Distance(playerPostion, ballTwoPosition);
+
+		if (distanceToBallONE <= distanceToBallTWO)
 		{
-			y = y - speed;
+			if (y + height / 2 > ball.y)
+			{
+				y = y - speed;
+			}
+
+			if (y + height / 2 <= ball.y)
+			{
+				y = y + speed;
+			}
+
 		}
 
-		if (y + height / 2 <= ballTwo.y)
+		else
 		{
-			y = y + speed;
+			if (y + height / 2 > ballTwo.y)
+			{
+				y = y - speed;
+			}
+
+			if (y + height / 2 <= ballTwo.y)
+			{
+				y = y + speed;
+			}
 		}
+
+		
 	}
 
 
