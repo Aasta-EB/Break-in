@@ -12,17 +12,32 @@
 using namespace std;
 
 
+//Game state
+enum GameState
+{
+	MENU, // single player or multiplayer, esc
+	GAMEPLAY_MULTI,
+	GAMEPLAY_CPU,
+	PAUSE_MULTI, // space to pause
+	PAUSE_CPU,
+	GAMEOVER //go from game over to menu
+};
+
+GameState currentGameState = MENU;
+
+
+//variables
 int player_score = 5;
 int playerTwo_score = 5;
 
+//Classes
 Window value;
 Paddle_1 player;
 Paddle_2 playerTwo;
+Paddle_CPU cpu;
 Ball ball(player.x - 30, player.y);
 Ball ballTwo(playerTwo.x + 30, playerTwo.y);
 Blocks blocks;
-
-//Game state
 
 
 int main()
@@ -37,17 +52,55 @@ int main()
 
 	while (WindowShouldClose() == false)
 	{
+		// Update logic for the current state
+		switch (currentGameState)
+		{
+		case MENU:
+			// Handle menu input, update menu elements
+			if (IsKeyPressed(KEY_ENTER)) currentGameState = GAMEPLAY_MULTI;
+			if (IsKeyPressed(KEY_C)) currentGameState = GAMEPLAY_CPU;
+			break;
+	
+		case GAMEPLAY_MULTI:
+			// Handle player input, update game logic, check for game over
+			if (IsKeyPressed(KEY_SPACE)) currentGameState = PAUSE_MULTI;
+			if (IsKeyPressed(KEY_M)) currentGameState = MENU;
+			// ... if game over condition met ...
+			// currentGameState = STATE_GAMEOVER;
+			break;
 
+		case GAMEPLAY_CPU:
+			// Handle player input, update game logic, check for game over
+			if (IsKeyPressed(KEY_SPACE)) currentGameState = PAUSE_CPU;
+			if (IsKeyPressed(KEY_M)) currentGameState = MENU;
+			// ... if game over condition met ...
+			// currentGameState = STATE_GAMEOVER;
+			break;
+
+		case PAUSE_MULTI:
+			// Handle pause menu input, resume or quit options
+			if (IsKeyPressed(KEY_SPACE)) currentGameState = GAMEPLAY_MULTI;
+			break;
+
+		case PAUSE_CPU:
+			// Handle pause menu input, resume or quit options
+			if (IsKeyPressed(KEY_SPACE)) currentGameState = GAMEPLAY_MULTI;
+			break;
+
+		case GAMEOVER:
+			// Display game over screen, handle restart or quit options
+			if (IsKeyPressed(KEY_M)) currentGameState = MENU;
+			break;
+		}
 
 		BeginDrawing();
 
 		// Updating
 		player.Update();
 		playerTwo.Update();
+		cpu.Update();
 		ball.Update(player_score, playerTwo_score, player.x - 20, player.y + player.height/2);
 		ballTwo.Update(player_score, playerTwo_score, playerTwo.x + playerTwo.width + 20, playerTwo.y + playerTwo.height/2);
-	
-
 		
 
 		
@@ -90,6 +143,8 @@ int main()
 
 		}
 
+		if (currentGameState == GAMEPLAY_MULTI)
+		{
 		// Checking for collision player 2
 		if (CheckCollisionCircleRec(Vector2{ ball.x, ball.y }, ball.radius, Rectangle{ playerTwo.x, playerTwo.y, playerTwo.width, playerTwo.height }))
 		{
@@ -126,21 +181,111 @@ int main()
 				}
 			}
 		}
-			
+		}
 		
-		ClearBackground(BLACK);
-		DrawLine(value.screen_width / 2, 0, value.screen_width / 2, value.screen_height, GRAY);
-		
-		//Drawing
-		player.Draw();
-		playerTwo.Draw();
-		ball.Draw();
-		ballTwo.Draw();
-		blocks.Draw();
+		if (currentGameState == GAMEPLAY_CPU)
+		{ 
+		// Checking for collision CPU
+		if (CheckCollisionCircleRec(Vector2{ ball.x, ball.y }, ball.radius, Rectangle{ cpu.x, cpu.y, cpu.width, cpu.height }))
+		{
+			if (ball.Can_Bounce())
+			{
+				ball.speed_x *= -1;
+				ball.Toggle_Bounce();
+			}
 
-		//Score text
-		DrawText(TextFormat("%i", playerTwo_score), value.screen_width / 4 - 20, 20, 80, WHITE);
-		DrawText(TextFormat("%i", player_score), 3 * value.screen_width / 4 - 20, 20, 80, WHITE);
+		}
+		else
+		{
+			if (!ball.Can_Bounce())
+			{
+				ball.Toggle_Bounce();
+			}
+		}
+
+
+		if (CheckCollisionCircleRec(Vector2{ ballTwo.x, ballTwo.y }, ballTwo.radius, Rectangle{cpu.x, cpu.y, cpu.width, cpu.height }))
+		{
+			if (ballTwo.Can_Bounce())
+			{
+				ballTwo.speed_x *= -1;
+				ballTwo.Toggle_Bounce();
+			}
+
+
+			else
+			{
+				if (!ballTwo.Can_Bounce())
+				{
+					ballTwo.Toggle_Bounce();
+				}
+			}
+		}
+		}
+
+		ClearBackground(BLACK);
+
+		switch (currentGameState)
+		{
+		case MENU:
+			DrawText("-----------------------------------------", GetScreenWidth() / 2 - MeasureText("-----------------------------------------", 60) / 2, GetScreenHeight() / 2 - 360, 60, RED);
+			DrawText("-----------------------------------------", GetScreenWidth() / 2 - MeasureText("-----------------------------------------", 60) / 2, GetScreenHeight() / 2 - 350, 60, RED);
+			DrawText("BREAK - IN", GetScreenWidth() / 2 - MeasureText("BREAK - IN", 60) / 2, GetScreenHeight() / 2 - 270, 60, PURPLE);
+			DrawText("MAIN MENU", GetScreenWidth() / 2 - MeasureText("MAIN MENU", 40) / 2, GetScreenHeight() / 2 - 180, 40, RED);
+
+			DrawText("SINGLE PLAYER: PRESS C", GetScreenWidth() / 2 - MeasureText("SINGLE PLAYER: PRESS C", 30) / 2, GetScreenHeight() / 2 - 110, 30, WHITE);
+			DrawText("TWO PLAYER: PRESS ENTER", GetScreenWidth() / 2 - MeasureText("TWO PLAYER: PRESS ENTER", 30) / 2, GetScreenHeight() / 2 - 70, 30, WHITE);
+			DrawText("QUIT: PRESS ESCAPE", GetScreenWidth() / 2 - MeasureText("QUIT: PRESS ESCAPE", 30) / 2, GetScreenHeight() / 2 - 30, 30, WHITE);
+
+			break;
+		case GAMEPLAY_MULTI:
+			// Drawing game elements (player, ball, etc.)
+			DrawLine(value.screen_width / 2, 0, value.screen_width / 2, value.screen_height, GRAY);
+
+			//Drawing
+			player.Draw();
+			playerTwo.Draw();
+			ball.Draw();
+			ballTwo.Draw();
+			blocks.Draw();
+
+			//Score text
+			DrawText(TextFormat("%i", playerTwo_score), value.screen_width / 4 - 20, 20, 80, WHITE);
+			DrawText(TextFormat("%i", player_score), 3 * value.screen_width / 4 - 20, 20, 80, WHITE);
+			break;
+
+		case GAMEPLAY_CPU:
+			// Drawing game elements (player, ball, etc.)
+			DrawLine(value.screen_width / 2, 0, value.screen_width / 2, value.screen_height, GRAY);
+			
+			//Drawing
+			player.Draw();
+			cpu.Draw();
+			ball.Draw();
+			ballTwo.Draw();
+			blocks.Draw();
+
+			//Score text
+			DrawText(TextFormat("%i", playerTwo_score), value.screen_width / 4 - 20, 20, 80, WHITE);
+			DrawText(TextFormat("%i", player_score), 3 * value.screen_width / 4 - 20, 20, 80, WHITE);
+			break;
+
+		case PAUSE_MULTI:
+			DrawText("Paused", GetScreenWidth() / 2 - MeasureText("Paused", 20) / 2, GetScreenHeight() / 2, 20, WHITE);
+			DrawText("Press SPACE to continue", GetScreenWidth() / 2 - MeasureText("Press SPACE to continue", 20) / 2, GetScreenHeight() / 2 + 30, 20, GRAY);
+			break;
+
+		case PAUSE_CPU:
+			DrawText("Paused", GetScreenWidth() / 2 - MeasureText("Paused", 20) / 2, GetScreenHeight() / 2, 20, WHITE);
+			DrawText("Press SPACE to continue", GetScreenWidth() / 2 - MeasureText("Press SPACE to continue", 20) / 2, GetScreenHeight() / 2 + 30, 20, GRAY);
+			break;
+
+		case GAMEOVER:
+			DrawText("Game Over! Press M to go to MAIN MENU", GetScreenWidth() / 2 - MeasureText("Game Over! Press M to go to MAIN MENU", 20) / 2, GetScreenHeight() / 2, 20, WHITE);
+			break;
+		}
+
+
 		EndDrawing();
 
 
