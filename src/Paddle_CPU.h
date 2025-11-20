@@ -19,7 +19,7 @@ public:
 	float width = 25;
 	float x = 10;
 	float y = 900 / 2 - height / 2;
-	float speed = 6.4;
+	float speed = 6.25;
 
 	void Draw()
 	{
@@ -30,6 +30,8 @@ public:
 
 	void Update()
 	{
+		ballTwo.Shoot();
+
 		if (y + height / 2 > ballTwo.y)
 		{
 			y = y - speed;
