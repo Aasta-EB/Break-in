@@ -97,10 +97,7 @@ int main()
 
 		// Updating
 		player.Update();
-		playerTwo.Update();
-		cpu.Update();
 		ball.Update(player_score, playerTwo_score, player.x - 20, player.y + player.height/2);
-		ballTwo.Update(player_score, playerTwo_score, playerTwo.x + playerTwo.width + 20, playerTwo.y + playerTwo.height/2);
 		
 
 		
@@ -242,6 +239,10 @@ int main()
 			// Drawing game elements (player, ball, etc.)
 			DrawLine(value.screen_width / 2, 0, value.screen_width / 2, value.screen_height, GRAY);
 
+			//Updating
+			playerTwo.Update();
+			ballTwo.Update(player_score, playerTwo_score, playerTwo.x + playerTwo.width + 20, playerTwo.y + playerTwo.height / 2);
+
 			//Drawing
 			player.Draw();
 			playerTwo.Draw();
@@ -258,6 +259,10 @@ int main()
 			// Drawing game elements (player, ball, etc.)
 			DrawLine(value.screen_width / 2, 0, value.screen_width / 2, value.screen_height, GRAY);
 			
+			//Update
+			cpu.Update();
+			ballTwo.Update(player_score, playerTwo_score, cpu.x + cpu.width + 20, cpu.y + cpu.height / 2);
+
 			//Drawing
 			player.Draw();
 			cpu.Draw();
