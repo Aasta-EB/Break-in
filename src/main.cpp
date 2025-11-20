@@ -30,13 +30,17 @@ GameState currentGameState = MENU;
 int player_score = 5;
 int playerTwo_score = 5;
 
+//Color
+Color CornflowerBlue{ 100, 143, 255, 255 };
+Color OrangeRed{ 254, 97, 0, 255 };
+
 //Classes
 Window value;
 Paddle_1 player;
 Paddle_2 playerTwo;
 Paddle_CPU cpu;
-Ball ball(player.x - 30, player.y);
-Ball ballTwo(playerTwo.x + 30, playerTwo.y);
+Ball ball(player.x - 50, player.y, OrangeRed);
+Ball ballTwo(playerTwo.x + 50, playerTwo.y, CornflowerBlue);
 Blocks blocks;
 
 

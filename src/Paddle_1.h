@@ -15,7 +15,9 @@ class Paddle_1
 public:
 	//float x, y;
 	//float width, height;
-	//int speed;
+	//int speed
+
+	Color OrangeRed{ 254, 97, 0, 255 };
 
 	float width = 25;
 	float height = 120;
@@ -26,7 +28,7 @@ public:
 	void Draw()
 	{
 		ball.Draw();
-		DrawRectangleRounded(Rectangle{ x, y, width, height}, 0.8, 0, WHITE);
+		DrawRectangleRounded(Rectangle{ x, y, width, height}, 0.8, 0, OrangeRed);
 	}
 
 	void Update()

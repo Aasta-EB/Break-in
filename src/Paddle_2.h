@@ -17,6 +17,7 @@ public:
 	//float width, height;
 	//int speed;
 
+	Color CornflowerBlue{ 100, 143, 255, 255 };
 	float width = 25;
 	float height = 120;
 	float x = 10;
@@ -26,8 +27,7 @@ public:
 
 	void Draw()
 	{
-
-		DrawRectangleRounded(Rectangle{ x, y, width, height }, 0.8, 0, WHITE);
+		DrawRectangleRounded(Rectangle{ x, y, width, height }, 0.8, 0, CornflowerBlue);
 	}
 
 	void Update()

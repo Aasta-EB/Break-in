@@ -15,27 +15,28 @@ extern Blocks blocks;
 class Ball {
 public:
 
-
 	int radius = 15;
 
 	float x = 1400 / 2; //needs to fetch window width and window height from window class
 	float y = 900 / 2;
 	int speed_x = 7;
 	int speed_y = 7;
+	Color drawColor = WHITE;
 	bool has_been_shot = false;
 	bool canBounce = true;
 
-	Ball(int xPosition, int yPosition)
+	Ball(int xPosition, int yPosition, Color ballColor)
 	{
 		x = xPosition;
 		y = yPosition;
+		drawColor = ballColor;
 
 	}
 
 
 	void Draw()
 	{
-		DrawCircle(x, y, radius, WHITE);
+		DrawCircle(x, y, radius, drawColor);
 	}
 
 	void Update(int& player_score, int& playerTwo_score, int heldPositionX, int heldPositionY)

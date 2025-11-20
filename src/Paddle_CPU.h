@@ -12,10 +12,13 @@
 extern Ball ball;
 extern Ball ballTwo;
 
+
+
 class Paddle_CPU
 {
 public:
-
+	
+	Color CornflowerBlue{100, 143, 255, 255};
 	float height = 120;
 	float width = 25;
 	float x = 10;
@@ -25,7 +28,7 @@ public:
 	void Draw()
 	{
 		ballTwo.Draw();
-		DrawRectangleRounded(Rectangle{x, y, width, height}, 0.8, 0, WHITE);
+		DrawRectangleRounded(Rectangle{x, y, width, height}, 0.8, 0, CornflowerBlue);
 	}
 
 
