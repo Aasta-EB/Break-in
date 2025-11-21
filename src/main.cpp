@@ -26,6 +26,7 @@ enum GameState
 GameState currentGameState = MENU;
 
 
+
 //variables
 int player_score = 5;
 int playerTwo_score = 5;
@@ -42,6 +43,20 @@ Paddle_CPU cpu;
 Ball ball(player.x - 50, player.y, OrangeRed);
 Ball ballTwo(playerTwo.x + 50, playerTwo.y, CornflowerBlue);
 Blocks blocks;
+
+// Resetting the game
+void ResetGame()
+{
+	player_score = 5;
+	playerTwo_score = 5;
+	ball.ResetBall(player.x - 50, player.y);
+	ballTwo.ResetBall(playerTwo.x + 50, playerTwo.y);
+	player.ResetPaddle();
+	playerTwo.ResetPaddleTwo();
+	cpu.ResetPaddleCPU();
+	blocks.initialize();
+
+}
 
 
 int main()
@@ -77,6 +92,11 @@ int main()
 			// Handle player input, update game logic, check for game over
 			if (IsKeyPressed(KEY_SPACE)) currentGameState = PAUSE_CPU;
 			if (IsKeyPressed(KEY_M)) currentGameState = MENU;
+			if (player_score == 0 or playerTwo_score == 0)
+			{
+				currentGameState = GAMEOVER;
+			}
+			
 			// ... if game over condition met ...
 			// currentGameState = STATE_GAMEOVER;
 			break;
@@ -88,7 +108,7 @@ int main()
 
 		case PAUSE_CPU:
 			// Handle pause menu input, resume or quit options
-			if (IsKeyPressed(KEY_SPACE)) currentGameState = GAMEPLAY_MULTI;
+			if (IsKeyPressed(KEY_SPACE)) currentGameState = GAMEPLAY_CPU;
 			break;
 
 		case GAMEOVER:
@@ -100,8 +120,7 @@ int main()
 		BeginDrawing();
 
 		// Updating
-		player.Update();
-		ball.Update(player_score, playerTwo_score, player.x - 20, player.y + player.height/2);
+		
 		
 
 		
@@ -238,12 +257,16 @@ int main()
 			DrawText("TWO PLAYER: PRESS ENTER", GetScreenWidth() / 2 - MeasureText("TWO PLAYER: PRESS ENTER", 30) / 2, GetScreenHeight() / 2 - 70, 30, WHITE);
 			DrawText("QUIT: PRESS ESCAPE", GetScreenWidth() / 2 - MeasureText("QUIT: PRESS ESCAPE", 30) / 2, GetScreenHeight() / 2 - 30, 30, WHITE);
 
+			ResetGame();
+
 			break;
 		case GAMEPLAY_MULTI:
 			// Drawing game elements (player, ball, etc.)
 			DrawLine(value.screen_width / 2, 0, value.screen_width / 2, value.screen_height, GRAY);
 
 			//Updating
+			player.Update();
+			ball.Update(player_score, playerTwo_score, player.x - 20, player.y + player.height / 2);
 			playerTwo.Update();
 			ballTwo.Update(player_score, playerTwo_score, playerTwo.x + playerTwo.width + 20, playerTwo.y + playerTwo.height / 2);
 
@@ -264,6 +287,8 @@ int main()
 			DrawLine(value.screen_width / 2, 0, value.screen_width / 2, value.screen_height, GRAY);
 			
 			//Update
+			player.Update();
+			ball.Update(player_score, playerTwo_score, player.x - 20, player.y + player.height / 2);
 			cpu.Update();
 			ballTwo.Update(player_score, playerTwo_score, cpu.x + cpu.width + 20, cpu.y + cpu.height / 2);
 

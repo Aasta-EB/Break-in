@@ -27,7 +27,6 @@ public:
 
 	void Draw()
 	{
-		ball.Draw();
 		DrawRectangleRounded(Rectangle{ x, y, width, height}, 0.8, 0, OrangeRed);
 	}
 
@@ -61,4 +60,13 @@ public:
 
 
 	}
+
+	void ResetPaddle()
+	{
+		float x = 1400 - 35; 
+		float y = 900 / 2 - 60;
+
+	}
+
+
 };

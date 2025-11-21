@@ -171,10 +171,14 @@ public:
 		has_been_shot = false;
 		x = heldPositionX;
 		y = heldPositionY;
+		
 
 		int speed_choices[2] = { -1, 1 };
 		speed_x *= speed_choices[GetRandomValue(0, 1)];
 		speed_y *= speed_choices[GetRandomValue(0, 1)];
 	}
+
+
+
 
 };

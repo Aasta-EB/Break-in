@@ -60,4 +60,12 @@ public:
 
 	}
 
+	void ResetPaddleTwo()
+	{
+		float x = 10;
+		float y = 900 / 2 - height / 2;
+
+	}
+
+
 };
