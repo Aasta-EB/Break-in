@@ -1,14 +1,10 @@
 #pragma once
-#include "Window.h"
-#include "Paddle_1.h"
-#include "Paddle_2.h"
-#include "Paddle_CPU.h"
-#include "Blocks.h"
-
 #include <algorithm>
 #include <raylib.h>
 #include <iostream>
+#include <vector>
 #include <string>
+
 
 
 typedef struct Drop {
@@ -17,9 +13,9 @@ typedef struct Drop {
 	float rotation;
 } Drop;
 
-
 class FunDrop
-{ public:
+{ 
+public:
 
 	float x = 1400 / 2;
 	float y = 900 / 2;

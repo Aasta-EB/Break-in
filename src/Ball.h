@@ -11,8 +11,9 @@
 #include <iostream>
 #include <string>
 
+
+extern FunDrop fundrop;
 extern Blocks blocks;
-//extern FunDrop fundrop;
 
 class Ball {
 public:
@@ -130,7 +131,7 @@ public:
 				brick.active = false;
 				speed_x *= -1;
 
-				//fundrop.Spawn(brick.position.x - blocks.brickWidth / 2, brick.position.y - blocks.brickHeight / 2, -1);
+				fundrop.Spawn(brick.position.x - blocks.brickWidth / 2, brick.position.y - blocks.brickHeight / 2, -1);
 
 			}
 
@@ -144,7 +145,7 @@ public:
 				speed_x *= -1;
 
 
-				//fundrop.Spawn(brick.position.x - blocks.brickWidth / 2, brick.position.y - blocks.brickHeight / 2, 1);
+				fundrop.Spawn(brick.position.x - blocks.brickWidth / 2, brick.position.y - blocks.brickHeight / 2, 1);
 			}
 		}
 
