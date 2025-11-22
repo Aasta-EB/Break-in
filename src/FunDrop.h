@@ -22,20 +22,23 @@ public:
 	int speed_x = 6;
 	Color drawColor = PURPLE;
 	std::vector<Drop> drops;
-	float rotation = 0;
 
 
 	void Spawn(int blockX, int blockY, float direction)
 	{
-		Drop drop = { {blockX, blockY}, direction*speed_x};
-		drops.push_back(drop);
+		int dropOrNot = GetRandomValue(1,100);
+		if (dropOrNot <= 50)
+		{
+			Drop drop = { {blockX, blockY}, direction * speed_x };
+			drops.push_back(drop);
+		}
 	}
 
 	void Draw()
 	{
 		for (Drop drop : drops)
 		{
-			DrawPoly(drop.position, 6, 25, rotation, drawColor);
+			DrawPoly(drop.position, 6, 25, drop.rotation, drawColor);
 		}
 
 	}
