@@ -7,7 +7,9 @@
 #include "Paddle_1.h"
 #include "Paddle_2.h"
 #include "Paddle_CPU.h"
+#include "FunDrop.h"
 #include "Ball.h"
+
 
 using namespace std;
 
@@ -40,6 +42,7 @@ Window value;
 Paddle_1 player;
 Paddle_2 playerTwo;
 Paddle_CPU cpu;
+FunDrop fundrop;
 Ball ball(player.x - 50, player.y, OrangeRed);
 Ball ballTwo(playerTwo.x + 50, playerTwo.y, CornflowerBlue);
 Blocks blocks;
@@ -270,12 +273,14 @@ int main()
 			playerTwo.Update();
 			ballTwo.Update(player_score, playerTwo_score, playerTwo.x + playerTwo.width + 20, playerTwo.y + playerTwo.height / 2);
 
+
 			//Drawing
 			player.Draw();
 			playerTwo.Draw();
 			ball.Draw();
 			ballTwo.Draw();
 			blocks.Draw();
+	
 
 			//Score text
 			DrawText(TextFormat("%i", playerTwo_score), value.screen_width / 4 - 20, 20, 80, WHITE);
@@ -291,6 +296,7 @@ int main()
 			ball.Update(player_score, playerTwo_score, player.x - 20, player.y + player.height / 2);
 			cpu.Update();
 			ballTwo.Update(player_score, playerTwo_score, cpu.x + cpu.width + 20, cpu.y + cpu.height / 2);
+			fundrop.Update();
 
 			//Drawing
 			player.Draw();
@@ -298,6 +304,7 @@ int main()
 			ball.Draw();
 			ballTwo.Draw();
 			blocks.Draw();
+			fundrop.Draw();
 
 			//Score text
 			DrawText(TextFormat("%i", playerTwo_score), value.screen_width / 4 - 20, 20, 80, WHITE);
