@@ -4,6 +4,7 @@
 #include "Paddle_2.h"
 #include "Ball.h"
 #include "Blocks.h"
+#include "FunDrop.h"
 
 #include <raylib.h>
 #include <raymath.h>
@@ -11,7 +12,7 @@
 
 extern Ball ball;
 extern Ball ballTwo;
-
+extern FunDrop fundrop;
 
 
 class Paddle_CPU
@@ -24,7 +25,7 @@ public:
 	float x = 10;
 	float y = 900 / 2 - height / 2;
 	float speed = 6.25;
-
+	
 	void Draw()
 	{
 		ballTwo.Draw();

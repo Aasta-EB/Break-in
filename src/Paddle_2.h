@@ -4,11 +4,13 @@
 #include "Paddle_CPU.h"
 #include "Ball.h"
 #include "Blocks.h"
+#include "FunDrop.h"
 
 #include <raylib.h>
 #include <iostream>
 
 extern Ball ballTwo;
+extern FunDrop fundrop;
 
 class Paddle_2
 {

@@ -4,11 +4,14 @@
 #include "Paddle_CPU.h"
 #include "Ball.h"
 #include "Blocks.h"
+#include "FunDrop.h"
 
 #include <raylib.h>
 #include <iostream>
+#include <vector>
 
 extern Ball ball;
+extern FunDrop fundrop;
 
 class Paddle_1
 {
@@ -58,8 +61,27 @@ public:
 
 		}
 
+		if (CheckCollisionCircleRec(Vector2{ fundrop.x, fundrop.y }, ball.radius, Rectangle{ x, y, width, height }))
+		{
+			FunUpgrade funShowtime = fundrop.RandomUpgrade();
+
+			switch (funShowtime)
+			{
+			case ENLARGE_BALL:
+				// ball.enlarge()
+				break;
+			case ENLARGE_PADDLE:
+				//enlarge()
+				break;
+			default:
+				break;
+			}
+		}
+
 
 	}
+
+
 
 	void ResetPaddle()
 	{

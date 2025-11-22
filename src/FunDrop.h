@@ -5,13 +5,22 @@
 #include <vector>
 #include <string>
 
-
-
 typedef struct Drop {
 	Vector2 position;
 	int speed;
 	float rotation;
 } Drop;
+
+enum FunUpgrade
+{
+	ENLARGE_BALL, 
+	ENLARGE_PADDLE,
+	//SPEED_BALL,
+	//SPEED_OPPONENT, 
+	//SPEED_SELF,
+	//MANIPULATE_MOVEMENT
+};
+
 
 class FunDrop
 { 
@@ -23,6 +32,11 @@ public:
 	Color drawColor = PURPLE;
 	std::vector<Drop> drops;
 
+	FunUpgrade RandomUpgrade()
+	{
+		FunUpgrade upgrade_choices[] = {ENLARGE_BALL, ENLARGE_PADDLE};
+		return upgrade_choices[GetRandomValue(0, 1)] ;
+	}
 
 	void Spawn(int blockX, int blockY, float direction)
 	{
