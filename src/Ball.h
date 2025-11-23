@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include "Window.h"
 #include "Paddle_1.h"
 #include "Paddle_2.h"
@@ -28,6 +28,16 @@ public:
 	bool has_been_shot = false;
 	bool canBounce = true;
 
+
+	// Math variables
+	bool sizeAnimating = false;
+	float sizeAnimTime = 0.0f;
+
+	float animationDuration = 10.0f;   // T
+	int baseRadius = 15;               // R₀
+	int maxRadius = 30;                // Rₘₐₓ
+
+
 	Ball(int xPosition, int yPosition, Color ballColor)
 	{
 		x = xPosition;
@@ -36,10 +46,12 @@ public:
 
 	}
 
-	void Enlarge()
+	void StartEnlarge()
 	{
-		radius = 30;
+		sizeAnimating = true;
+		sizeAnimTime = 0.0f;
 	}
+
 
 	void SpeedIncrease()
 	{
@@ -55,6 +67,29 @@ public:
 
 	void Update(int& player_score, int& playerTwo_score, int heldPositionX, int heldPositionY)
 	{
+		//Updating for math Upgrades in FunDrop
+		if (sizeAnimating)
+		{
+			sizeAnimTime += GetFrameTime();
+
+			float t = sizeAnimTime;
+			float T = animationDuration;
+			float R0 = baseRadius;
+			float Rmax = maxRadius;
+			float A = Rmax - R0;
+
+			if (t >= T)
+			{
+				t = T;
+				sizeAnimating = false;
+			}
+
+			// --- Mathematical radius function ---
+			// r(t) = R0 + A * sin(pi * t / T)
+			radius = R0 + A * sinf(PI * t / T);
+		}
+
+		// Shooting the ball
 		if (!has_been_shot)
 		{
 			x = heldPositionX;
@@ -106,6 +141,7 @@ public:
 
 		}
 
+		//Collision with brick
 		for (int index = 0; index < blocks.bricks.size(); index++)
 		{
 			Brick& brick = blocks.bricks.at(index);
@@ -158,6 +194,9 @@ public:
 
 				fundrop.Spawn(brick.position.x - blocks.brickWidth / 2, brick.position.y - blocks.brickHeight / 2, 1);
 			}
+
+			
+
 		}
 
 	}

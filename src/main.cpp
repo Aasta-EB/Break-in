@@ -30,8 +30,8 @@ GameState currentGameState = MENU;
 
 
 //variables
-int player_score = 5;
-int playerTwo_score = 5;
+int player_score = 100;
+int playerTwo_score = 100;
 
 //Color
 Color CornflowerBlue{ 100, 143, 255, 255 };
@@ -50,8 +50,8 @@ Blocks blocks;
 // Resetting the game
 void ResetGame()
 {
-	player_score = 5;
-	playerTwo_score = 5;
+	player_score = 100;
+	playerTwo_score = 100;
 	ball.ResetBall(player.x - 50, player.y);
 	ballTwo.ResetBall(playerTwo.x + 50, playerTwo.y);
 	player.ResetPaddle();

@@ -18,8 +18,7 @@ enum FunUpgrade
 	ENLARGE_PADDLE,
 	SPEED_BALL,
 	SPEED_OPPONENT, 
-	SPEED_SELF,
-	//MANIPULATE_MOVEMENT
+	SPEED_SELF
 };
 
 
@@ -35,8 +34,8 @@ public:
 
 	FunUpgrade RandomUpgrade()
 	{
-		FunUpgrade upgrade_choices[] = { ENLARGE_BALL, ENLARGE_PADDLE, SPEED_BALL,  SPEED_OPPONENT,  SPEED_SELF };
-		return upgrade_choices[GetRandomValue(0, 1)] ;
+		FunUpgrade upgrade_choices[] = { ENLARGE_BALL, ENLARGE_PADDLE, SPEED_BALL, SPEED_OPPONENT, SPEED_SELF };
+		return upgrade_choices[GetRandomValue(0, 4)] ;
 	}
 
 	void Spawn(int blockX, int blockY, float direction)

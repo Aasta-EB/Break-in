@@ -31,15 +31,27 @@ public:
 	float y = 900 / 2 - 60;
 	float speed = 6;
 
+	//Variables for math related Upgrades
+	bool sizeAnimating = false;
+	float sizeAnimTime = 0.0f;
+
+	float paddleBaseHeight = 120;    // H0
+	float paddleMaxHeight = 300;     // Hmax
+	float paddleAnimDuration = 10.0f;
+
+	
+	void StartPaddleEnlarge()
+	{
+		sizeAnimating = true;
+		sizeAnimTime = 0.0f; 
+	}
+
+
 	void Draw()
 	{
 		DrawRectangleRounded(Rectangle{ x, y, width, height}, 0.8, 0, OrangeRed);
 	}
 
-	void Enlarge()
-	{
-		height = 300;
-	}
 
 	void SpeedUp()
 	{
@@ -48,6 +60,9 @@ public:
 
 	void Update()
 	{
+
+
+		// Controlls for player movement
 		if (IsKeyDown(KEY_UP))
 		{
 			y = y - speed;
@@ -74,6 +89,34 @@ public:
 
 		}
 
+		// Paddle Size upgrade animation
+		if (sizeAnimating)
+		{
+			sizeAnimTime += GetFrameTime();
+
+			float t = sizeAnimTime;
+			float T = paddleAnimDuration;
+			float H0 = paddleBaseHeight;
+			float Hmax = paddleMaxHeight;
+			float A = Hmax - H0;
+
+			if (t >= T)
+			{
+				t = T;
+				sizeAnimating = false;
+			}
+
+			// h(t) = H0 + A * sin(pi * t / T)
+			height = H0 + A * sinf(PI * (t / T));
+
+			// The y-position should only be adjusted at the start of the animation
+			// This ensures the paddle doesn't get pushed too far up or down
+			if (sizeAnimTime < GetFrameTime())  // Only adjust once, not during animation
+			{
+				y -= 0.5f * (height - paddleBaseHeight);  // Initial offset when height changes
+			}
+		}
+
 		for (Drop& drop : fundrop.drops)
 		{
 		if (!drop.active)
@@ -90,10 +133,11 @@ public:
 			switch (funShowtime)
 			{
 			case ENLARGE_BALL:
-				ballTwo.Enlarge();
+				ballTwo.StartEnlarge();
 				break;
 			case ENLARGE_PADDLE:
-				Enlarge();
+				std::cout << "Paddle Enlarge Triggered!" << std::endl;
+				StartPaddleEnlarge();
 				break;
 			case SPEED_BALL:
 				ballTwo.SpeedIncrease();
