@@ -9,6 +9,7 @@ typedef struct Drop {
 	Vector2 position;
 	int speed;
 	float rotation;
+	bool active = true;
 } Drop;
 
 enum FunUpgrade
@@ -43,7 +44,7 @@ public:
 		int dropOrNot = GetRandomValue(1,100);
 		if (dropOrNot <= 50)
 		{
-			Drop drop = { {blockX, blockY}, direction * speed_x };
+			Drop drop = { {blockX, blockY}, direction * speed_x, true };
 			drops.push_back(drop);
 		}
 	}
@@ -52,18 +53,23 @@ public:
 	{
 		for (Drop drop : drops)
 		{
+			if (drop.active)
+			{
 			DrawPoly(drop.position, 6, 25, drop.rotation, drawColor);
+			}
 		}
 
 	}
-
 
 	void Update()
 	{
 		for (Drop& drop : drops)
 		{
-			drop.position.x += drop.speed;
-			drop.rotation += 0.7f;
+			if (drop.active)
+			{
+				drop.position.x += drop.speed;
+				drop.rotation += 0.7f;
+			}
 		}
 	}
 };

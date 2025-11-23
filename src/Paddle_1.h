@@ -65,13 +65,19 @@ public:
 			ball.Shoot();
 
 		}
+
 		for (Drop& drop : fundrop.drops)
 		{
+		if (!drop.active)
+		{
+			continue;
+		}
+
 		if (CheckCollisionCircleRec(drop.position, 25, Rectangle{ x, y, width, height }))
 		{
 			fundrop.drawColor = WHITE;
 			FunUpgrade funShowtime = fundrop.RandomUpgrade();
-			fundrop.Despawn(drop);
+			drop.active = false;
 
 			switch (funShowtime)
 			{
