@@ -16,9 +16,9 @@ enum FunUpgrade
 {
 	ENLARGE_BALL, 
 	ENLARGE_PADDLE,
-	//SPEED_BALL,
-	//SPEED_OPPONENT, 
-	//SPEED_SELF,
+	SPEED_BALL,
+	SPEED_OPPONENT, 
+	SPEED_SELF,
 	//MANIPULATE_MOVEMENT
 };
 
@@ -35,7 +35,7 @@ public:
 
 	FunUpgrade RandomUpgrade()
 	{
-		FunUpgrade upgrade_choices[] = {ENLARGE_BALL, ENLARGE_PADDLE};
+		FunUpgrade upgrade_choices[] = { ENLARGE_BALL, ENLARGE_PADDLE, SPEED_BALL,  SPEED_OPPONENT,  SPEED_SELF };
 		return upgrade_choices[GetRandomValue(0, 1)] ;
 	}
 

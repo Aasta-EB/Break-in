@@ -41,6 +41,12 @@ public:
 		radius = 30;
 	}
 
+	void SpeedIncrease()
+	{
+		speed_x = 9;
+		speed_y = 9;
+	}
+
 
 	void Draw()
 	{

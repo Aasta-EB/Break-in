@@ -62,6 +62,11 @@ public:
 
 	}
 
+	void Slowed()
+	{
+		speed = 3;
+	}
+
 	void ResetPaddleTwo()
 	{
 		float x = 10;

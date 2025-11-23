@@ -75,6 +75,11 @@ public:
 		
 	}
 
+	void Slowed()
+	{
+		speed = 3;
+	}
+
 	void ResetPaddleCPU()
 	{
 		float x = 10;

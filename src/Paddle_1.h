@@ -11,7 +11,10 @@
 #include <vector>
 
 extern Ball ball;
+extern Ball ballTwo;
 extern FunDrop fundrop;
+extern Paddle_2 playerTwo;
+extern Paddle_CPU cpu;
 
 class Paddle_1
 {
@@ -36,6 +39,11 @@ public:
 	void Enlarge()
 	{
 		height = 300;
+	}
+
+	void SpeedUp()
+	{
+		speed = 10;
 	}
 
 	void Update()
@@ -82,10 +90,20 @@ public:
 			switch (funShowtime)
 			{
 			case ENLARGE_BALL:
-				ball.Enlarge();
+				ballTwo.Enlarge();
 				break;
 			case ENLARGE_PADDLE:
 				Enlarge();
+				break;
+			case SPEED_BALL:
+				ballTwo.SpeedIncrease();
+				break;
+			case SPEED_OPPONENT:
+				playerTwo.Slowed();
+				cpu.Slowed();
+				break;
+			case SPEED_SELF:
+				SpeedUp();
 				break;
 			default:
 				break;
