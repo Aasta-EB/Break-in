@@ -1,5 +1,6 @@
 #include <raylib.h>
 #include <iostream>
+#include <cmath> 
 
 
 #include "Window.h"
@@ -33,6 +34,7 @@ GameState currentGameState = MENU;
 int player_score = 100;
 int playerTwo_score = 100;
 
+
 //Color
 Color CornflowerBlue{ 100, 143, 255, 255 };
 Color OrangeRed{ 254, 97, 0, 255 };
@@ -46,6 +48,16 @@ FunDrop fundrop;
 Ball ball(player.x - 50, player.y, OrangeRed);
 Ball ballTwo(playerTwo.x + 50, playerTwo.y, CornflowerBlue);
 Blocks blocks;
+
+
+// Sinus Wave Movement Variables
+float sinusBallX = 0.0f;            // Initial X position (start from left side)
+float sinusBallY = value.screen_height / 2;   // Initial Y position
+float amplitude = 100.0f;                     // How high/low the ball moves vertically
+float frequency = 1.f;                       // How fast the ball oscillates vertically
+float speed = 2.0f;                          // Horizontal speed of the ball
+float sinusTime = 0.0f;                      // Time tracking for the sine wave
+
 
 // Resetting the game
 void ResetGame()
@@ -81,14 +93,26 @@ int main()
 			// Handle menu input, update menu elements
 			if (IsKeyPressed(KEY_ENTER)) currentGameState = GAMEPLAY_MULTI;
 			if (IsKeyPressed(KEY_C)) currentGameState = GAMEPLAY_CPU;
+
+			// Sinus wave movement for the ball in the menu
+			sinusTime += GetFrameTime();  // Increment time with each frame
+
+			// Horizontal movement
+			sinusBallX += speed;  // Move the ball horizontally to the right
+
+			// If the ball moves off the screen to the right, reset its position to the left
+			if (sinusBallX > value.screen_width + 20)
+				sinusBallX = -20;
+
+			// Vertical sinusoidal movement
+			sinusBallY = (value.screen_height / 2) + amplitude * sinf(frequency * sinusTime);  // Update y position of the ball
+
 			break;
 	
 		case GAMEPLAY_MULTI:
 			// Handle player input, update game logic, check for game over
 			if (IsKeyPressed(KEY_SPACE)) currentGameState = PAUSE_MULTI;
 			if (IsKeyPressed(KEY_M)) currentGameState = MENU;
-			// ... if game over condition met ...
-			// currentGameState = STATE_GAMEOVER;
 			break;
 
 		case GAMEPLAY_CPU:
@@ -251,6 +275,11 @@ int main()
 		switch (currentGameState)
 		{
 		case MENU:
+
+			// Draw the ball moving horizontally with sinus wave
+			DrawCircle(sinusBallX, sinusBallY, 15, OrangeRed);
+
+			// Drawing text
 			DrawText("-----------------------------------------", GetScreenWidth() / 2 - MeasureText("-----------------------------------------", 60) / 2, GetScreenHeight() / 2 - 360, 60, RED);
 			DrawText("-----------------------------------------", GetScreenWidth() / 2 - MeasureText("-----------------------------------------", 60) / 2, GetScreenHeight() / 2 - 350, 60, RED);
 			DrawText("BREAK - IN", GetScreenWidth() / 2 - MeasureText("BREAK - IN", 60) / 2, GetScreenHeight() / 2 - 270, 60, PURPLE);
@@ -260,9 +289,10 @@ int main()
 			DrawText("TWO PLAYER: PRESS ENTER", GetScreenWidth() / 2 - MeasureText("TWO PLAYER: PRESS ENTER", 30) / 2, GetScreenHeight() / 2 - 70, 30, WHITE);
 			DrawText("QUIT: PRESS ESCAPE", GetScreenWidth() / 2 - MeasureText("QUIT: PRESS ESCAPE", 30) / 2, GetScreenHeight() / 2 - 30, 30, WHITE);
 
+			//Reseting the game	
 			ResetGame();
-
 			break;
+
 		case GAMEPLAY_MULTI:
 			// Drawing game elements (player, ball, etc.)
 			DrawLine(value.screen_width / 2, 0, value.screen_width / 2, value.screen_height, GRAY);
