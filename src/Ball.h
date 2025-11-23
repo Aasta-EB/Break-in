@@ -36,6 +36,11 @@ public:
 
 	}
 
+	void Enlarge()
+	{
+		radius = 30;
+	}
+
 
 	void Draw()
 	{

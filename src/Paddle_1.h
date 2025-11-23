@@ -33,6 +33,11 @@ public:
 		DrawRectangleRounded(Rectangle{ x, y, width, height}, 0.8, 0, OrangeRed);
 	}
 
+	void Enlarge()
+	{
+		height = 300;
+	}
+
 	void Update()
 	{
 		if (IsKeyDown(KEY_UP))
@@ -60,26 +65,27 @@ public:
 			ball.Shoot();
 
 		}
-
-		if (CheckCollisionCircleRec(Vector2{ fundrop.x, fundrop.y }, 25, Rectangle{ x, y, width, height }))
+		for (Drop& drop : fundrop.drops)
 		{
-			std::cout << "Collision!" << std::endl;
-			fundrop.drawColor = ORANGE;
+		if (CheckCollisionCircleRec(drop.position, 25, Rectangle{ x, y, width, height }))
+		{
+			fundrop.drawColor = WHITE;
 			FunUpgrade funShowtime = fundrop.RandomUpgrade();
+			fundrop.Despawn(drop);
 
 			switch (funShowtime)
 			{
 			case ENLARGE_BALL:
-				// ball.enlarge()
+				ball.Enlarge();
 				break;
 			case ENLARGE_PADDLE:
-				//enlarge()
+				Enlarge();
 				break;
 			default:
 				break;
 			}
 		}
-
+		}
 
 	}
 
