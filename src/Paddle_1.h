@@ -61,8 +61,10 @@ public:
 
 		}
 
-		if (CheckCollisionCircleRec(Vector2{ fundrop.x, fundrop.y }, ball.radius, Rectangle{ x, y, width, height }))
+		if (CheckCollisionCircleRec(Vector2{ fundrop.x, fundrop.y }, 25, Rectangle{ x, y, width, height }))
 		{
+			std::cout << "Collision!" << std::endl;
+			fundrop.drawColor = ORANGE;
 			FunUpgrade funShowtime = fundrop.RandomUpgrade();
 
 			switch (funShowtime)
