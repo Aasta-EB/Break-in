@@ -149,6 +149,7 @@
     <ClCompile Include="src\Paddle_1.cpp" />
     <ClCompile Include="src\Paddle_2.cpp" />
     <ClCompile Include="src\Paddle_CPU.cpp" />
+    <ClCompile Include="src\Vector2d.cpp" />
     <ClCompile Include="src\Window.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -158,6 +159,7 @@
     <ClInclude Include="src\Paddle_1.h" />
     <ClInclude Include="src\Paddle_2.h" />
     <ClInclude Include="src\Paddle_CPU.h" />
+    <ClInclude Include="src\Vector2d.h" />
     <ClInclude Include="src\Window.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
