@@ -20,7 +20,7 @@ public:
 
 	int radius = 15;
 
-	float x = 1400 / 2; //needs to fetch window width and window height from window class
+	float x = 1400 / 2;
 	float y = 900 / 2;
 	int speed_x = 7;
 	int speed_y = 7;
@@ -33,9 +33,9 @@ public:
 	bool sizeAnimating = false;
 	float sizeAnimTime = 0.0f;
 
-	float animationDuration = 10.0f;   // T
-	int baseRadius = 15;               // R₀
-	int maxRadius = 30;                // Rₘₐₓ
+	float animationDuration = 10.0f;   
+	int baseRadius = 15;               
+	int maxRadius = 30;                
 
 
 	Ball(int xPosition, int yPosition, Color ballColor)
@@ -84,7 +84,7 @@ public:
 				sizeAnimating = false;
 			}
 
-			// --- Mathematical radius function ---
+			// Radius function
 			// r(t) = R0 + A * sin(pi * t / T)
 			radius = R0 + A * sinf(PI * t / T);
 		}

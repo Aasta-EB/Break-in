@@ -108,12 +108,11 @@ public:
 
 			// h(t) = H0 + A * sin(pi * t / T)
 			height = H0 + A * sinf(PI * (t / T));
-
-			// The y-position should only be adjusted at the start of the animation
-			// This ensures the paddle doesn't get pushed too far up or down
-			if (sizeAnimTime < GetFrameTime())  // Only adjust once, not during animation
+			
+			// Re-center the paddle during animation
+			if (sizeAnimTime < GetFrameTime()) 
 			{
-				y -= 0.5f * (height - paddleBaseHeight);  // Initial offset when height changes
+				y -= 0.5f * (height - paddleBaseHeight);  
 			}
 		}
 
@@ -126,7 +125,6 @@ public:
 
 		if (CheckCollisionCircleRec(drop.position, 25, Rectangle{ x, y, width, height }))
 		{
-			fundrop.drawColor = WHITE;
 			FunUpgrade funShowtime = fundrop.RandomUpgrade();
 			drop.active = false;
 
