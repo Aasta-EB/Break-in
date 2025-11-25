@@ -7,14 +7,14 @@ float Vector2d::CalculateMagnitude()
 	return magnitude;
 }
 
-Vector2d Vector2d::SetVectorOffset(Vector2d inVectorToAdd)
-{
-	float outVectorX = x + inVectorToAdd.x;
-	float outVectorY = y + inVectorToAdd.y;
-	Vector2d outVector{ outVectorX, outVectorY };
-
-	return outVector;
-}
+//Vector2d Vector2d::SetVectorOffset(Vector2d inVectorToAdd)
+//{
+//	float outVectorX = x + inVectorToAdd.x;
+//	float outVectorY = y + inVectorToAdd.y;
+//	Vector2d outVector{ outVectorX, outVectorY };
+//
+//	return outVector;
+//}
 
 Vector2d Vector2d::ScaleVector(float inScalar)
 {
@@ -42,71 +42,71 @@ float Vector2d::DistanceToTarget(Vector2d inTargetedVector)
 	return distanceToTargetedVector;
 }
 
-Vector2d Vector2d::NormalizeVector()
-{
-	if (CalculateMagnitude() == 0)
-	{
-		return { 0, 0 };
-	}
+//Vector2d Vector2d::NormalizeVector()
+//{
+//	if (CalculateMagnitude() == 0)
+//	{
+//		return { 0, 0 };
+//	}
+//
+//	float normalizedXVector = x / CalculateMagnitude();
+//	float normalizedYVector = y / CalculateMagnitude();
+//	Vector2d normalizedVector{ normalizedXVector,normalizedYVector };
+//
+//	return normalizedVector;
+//}
 
-	float normalizedXVector = x / CalculateMagnitude();
-	float normalizedYVector = y / CalculateMagnitude();
-	Vector2d normalizedVector{ normalizedXVector,normalizedYVector };
+//Vector2d Vector2d::CosineMovement(Vector2d inCenter, float inAmplitude, float inAngle)
+//{
+//	float x = inCenter.x + inAmplitude * cosf(inAngle);
+//	float y = inCenter.y;
+//
+//	return { x, y };
+//}
 
-	return normalizedVector;
-}
+//Vector2d Vector2d::CircularMotion(Vector2d inCenter, float inRadius, float inAngle)
+//{
+//	float cosX = inCenter.x + inRadius * cosf(inAngle);
+//	float sinY = inCenter.y + inRadius * sinf(inAngle);
+//
+//	return { cosX, sinY };
+//}
 
-Vector2d Vector2d::CosineMovement(Vector2d inCenter, float inAmplitude, float inAngle)
-{
-	float x = inCenter.x + inAmplitude * cosf(inAngle);
-	float y = inCenter.y;
+//float Vector2d::CrossProduct(Vector2d inOtherVector)
+//{
+//	float aComponentMultiplied = x * inOtherVector.y;
+//	float bComponentMultiplied = y * inOtherVector.x;
+//
+//	float crossProduct = aComponentMultiplied - bComponentMultiplied;
+//
+//	return crossProduct;
+//}
+//
+//float Vector2d::DotProduct(Vector2d inOtherVector)
+//{
+//	float xComponentMultiplied = x * inOtherVector.x;
+//	float yComponentMultiplied = y * inOtherVector.y;
+//
+//	float dotProduct = xComponentMultiplied + yComponentMultiplied;
+//
+//	return dotProduct;
+//}
 
-	return { x, y };
-}
-
-Vector2d Vector2d::CircularMotion(Vector2d inCenter, float inRadius, float inAngle)
-{
-	float cosX = inCenter.x + inRadius * cosf(inAngle);
-	float sinY = inCenter.y + inRadius * sinf(inAngle);
-
-	return { cosX, sinY };
-}
-
-float Vector2d::CrossProduct(Vector2d inOtherVector)
-{
-	float aComponentMultiplied = x * inOtherVector.y;
-	float bComponentMultiplied = y * inOtherVector.x;
-
-	float crossProduct = aComponentMultiplied - bComponentMultiplied;
-
-	return crossProduct;
-}
-
-float Vector2d::DotProduct(Vector2d inOtherVector)
-{
-	float xComponentMultiplied = x * inOtherVector.x;
-	float yComponentMultiplied = y * inOtherVector.y;
-
-	float dotProduct = xComponentMultiplied + yComponentMultiplied;
-
-	return dotProduct;
-}
-
-float Vector2d::AngleBetweenVectors(Vector2d inOtherVector)
-{
-	float thisLength = CalculateMagnitude();
-	float otherLength = inOtherVector.CalculateMagnitude();
-
-	if (thisLength == 0 || otherLength == 0)
-	{
-		return 0.0f;
-	}
-
-	float dotProduct = DotProduct(inOtherVector);
-	float cosine = dotProduct / (thisLength * otherLength);
-
-	float degrees = acosf(cosine) * (180 / 3.14);
-
-	return degrees;
-}
+//float Vector2d::AngleBetweenVectors(Vector2d inOtherVector)
+//{
+//	float thisLength = CalculateMagnitude();
+//	float otherLength = inOtherVector.CalculateMagnitude();
+//
+//	if (thisLength == 0 || otherLength == 0)
+//	{
+//		return 0.0f;
+//	}
+//
+//	float dotProduct = DotProduct(inOtherVector);
+//	float cosine = dotProduct / (thisLength * otherLength);
+//
+//	float degrees = acosf(cosine) * (180 / 3.14);
+//
+//	return degrees;
+//}
 
