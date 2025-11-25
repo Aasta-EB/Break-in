@@ -144,18 +144,22 @@
   <ItemGroup>
     <ClCompile Include="src\Ball.cpp" />
     <ClCompile Include="src\Blocks.cpp" />
+    <ClCompile Include="src\FunDrop.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\Paddle_1.cpp" />
     <ClCompile Include="src\Paddle_2.cpp" />
     <ClCompile Include="src\Paddle_CPU.cpp" />
+    <ClCompile Include="src\Vector2d.cpp" />
     <ClCompile Include="src\Window.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Ball.h" />
     <ClInclude Include="src\Blocks.h" />
+    <ClInclude Include="src\FunDrop.h" />
     <ClInclude Include="src\Paddle_1.h" />
     <ClInclude Include="src\Paddle_2.h" />
     <ClInclude Include="src\Paddle_CPU.h" />
+    <ClInclude Include="src\Vector2d.h" />
     <ClInclude Include="src\Window.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
