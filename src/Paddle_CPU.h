@@ -5,6 +5,7 @@
 #include "Ball.h"
 #include "Blocks.h"
 #include "FunDrop.h"
+#include "Vector2d.h"
 
 #include <raylib.h>
 #include <raymath.h>
@@ -37,42 +38,25 @@ public:
 	{
 		ballTwo.Shoot();
 
+		Vector2d playerPos{ x, y };
+		Vector2d ball1Pos{ ball.x, ball.y };
+		Vector2d ball2Pos{ ballTwo.x, ballTwo.y };
 
-		Vector2 playerPostion{ x, y };
-		Vector2 ballOnePosition{ ball.x, ball.y };
-		Vector2 ballTwoPosition{ ballTwo.x, ballTwo.y };
+		// Pick the closest ball using Vector2d distance
+		float dist1 = playerPos.DistanceToTarget(ball1Pos);
+		float dist2 = playerPos.DistanceToTarget(ball2Pos);
 
-		float distanceToBallONE = Vector2Distance(playerPostion, ballOnePosition);
-		float distanceToBallTWO = Vector2Distance(playerPostion, ballTwoPosition);
+		Vector2d targetBall = (dist1 <= dist2) ? ball1Pos : ball2Pos;
 
-		if (distanceToBallONE <= distanceToBallTWO)
-		{
-			if (y + height / 2 > ball.y)
-			{
-				y = y - speed;
-			}
+		float paddleCenterY = y + height / 2;
 
-			if (y + height / 2 <= ball.y)
-			{
-				y = y + speed;
-			}
+		if (paddleCenterY > targetBall.y)
+			y -= speed; 
+		else if (paddleCenterY < targetBall.y)
+			y += speed;  
 
-		}
-
-		else
-		{
-			if (y + height / 2 > ballTwo.y)
-			{
-				y = y - speed;
-			}
-
-			if (y + height / 2 <= ballTwo.y)
-			{
-				y = y + speed;
-			}
-		}
-
-		
+		if (y < 0) y = 0;
+		if (y + height > 900) y = 900 - height;
 	}
 
 	void Slowed()

@@ -14,6 +14,9 @@ public:
 	float x;
 	float y;
 
+	Vector2d() {};
+	Vector2d(float x, float y) : x(x), y(y) {};
+
 	float CalculateMagnitude();
 
 	Vector2d SetVectorOffset(Vector2d inVectorToAdd);

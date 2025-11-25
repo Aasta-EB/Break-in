@@ -18,12 +18,12 @@ using namespace std;
 //Game state
 enum GameState
 {
-	MENU, // single player or multiplayer, esc
+	MENU, //single player or multiplayer
 	GAMEPLAY_MULTI,
 	GAMEPLAY_CPU,
-	PAUSE_MULTI, // space to pause
+	PAUSE_MULTI, //space to pause
 	PAUSE_CPU,
-	GAMEOVER //go from game over to menu
+	GAMEOVER //go from gameover to menu
 };
 
 GameState currentGameState = MENU;
@@ -31,8 +31,8 @@ GameState currentGameState = MENU;
 
 
 //variables
-int player_score = 100;
-int playerTwo_score = 100;
+int player_score = 6;
+int playerTwo_score = 6;
 
 
 //Color
@@ -50,27 +50,27 @@ Ball ballTwo(playerTwo.x + 50, playerTwo.y, CornflowerBlue);
 Blocks blocks;
 
 
-// Sinus Wave Movement Variables
-float sinusBallX = 0.0f;            // Initial X position (start from left side)
-float sinusBallY = value.screen_height / 2;   // Initial Y position
-float amplitude = 100.0f;                     // How high/low the ball moves vertically
-float frequency = 1.f;                       // How fast the ball oscillates vertically
-float speed = 2.0f;                          // Horizontal speed of the ball
-float sinusTime = 0.0f;                      // Time tracking for the sine wave
+// Sinus-wave movement variables for Main-Menu
+float sinusBallX = 0.0f;
+float sinusBallY = value.screen_height / 2;
+float amplitude = 100.0f;                    
+float frequency = 1.f;
+float speed = 2.0f;                         
+float sinusTime = 0.0f;
 
 
 // Resetting the game
 void ResetGame()
 {
-	player_score = 100;
-	playerTwo_score = 100;
+	player_score = 6;
+	playerTwo_score = 6;
 	ball.ResetBall(player.x - 50, player.y);
 	ballTwo.ResetBall(playerTwo.x + 50, playerTwo.y);
 	player.ResetPaddle();
 	playerTwo.ResetPaddleTwo();
 	cpu.ResetPaddleCPU();
 	blocks.initialize();
-
+	fundrop.Reset();
 }
 
 
@@ -86,69 +86,57 @@ int main()
 
 	while (WindowShouldClose() == false)
 	{
-		// Update logic for the current state
 		switch (currentGameState)
 		{
 		case MENU:
-			// Handle menu input, update menu elements
+			// Handle menu input
 			if (IsKeyPressed(KEY_ENTER)) currentGameState = GAMEPLAY_MULTI;
 			if (IsKeyPressed(KEY_C)) currentGameState = GAMEPLAY_CPU;
 
-			// Sinus wave movement for the ball in the menu
-			sinusTime += GetFrameTime();  // Increment time with each frame
+			sinusTime += GetFrameTime();
+			sinusBallX += speed;
 
-			// Horizontal movement
-			sinusBallX += speed;  // Move the ball horizontally to the right
-
-			// If the ball moves off the screen to the right, reset its position to the left
+			// If the Sinus ball moves off the screen to the right, reseting its position to the left
 			if (sinusBallX > value.screen_width + 20)
 				sinusBallX = -20;
 
-			// Vertical sinusoidal movement
-			sinusBallY = (value.screen_height / 2) + amplitude * sinf(frequency * sinusTime);  // Update y position of the ball
-
+			// Update y position of the ball
+			sinusBallY = (value.screen_height / 2) + amplitude * sinf(frequency * sinusTime);
 			break;
 	
 		case GAMEPLAY_MULTI:
-			// Handle player input, update game logic, check for game over
+			// Handle player input
 			if (IsKeyPressed(KEY_SPACE)) currentGameState = PAUSE_MULTI;
 			if (IsKeyPressed(KEY_M)) currentGameState = MENU;
 			break;
 
 		case GAMEPLAY_CPU:
-			// Handle player input, update game logic, check for game over
+			// Handle player input
 			if (IsKeyPressed(KEY_SPACE)) currentGameState = PAUSE_CPU;
 			if (IsKeyPressed(KEY_M)) currentGameState = MENU;
 			if (player_score == 0 or playerTwo_score == 0)
 			{
 				currentGameState = GAMEOVER;
 			}
-			
-			// ... if game over condition met ...
-			// currentGameState = STATE_GAMEOVER;
 			break;
 
 		case PAUSE_MULTI:
-			// Handle pause menu input, resume or quit options
+			// Handle pause menu input
 			if (IsKeyPressed(KEY_SPACE)) currentGameState = GAMEPLAY_MULTI;
 			break;
 
 		case PAUSE_CPU:
-			// Handle pause menu input, resume or quit options
+			// Handle pause menu input
 			if (IsKeyPressed(KEY_SPACE)) currentGameState = GAMEPLAY_CPU;
 			break;
 
 		case GAMEOVER:
-			// Display game over screen, handle restart or quit options
+			// Display gameover screen, sends player to Main Menu
 			if (IsKeyPressed(KEY_M)) currentGameState = MENU;
 			break;
 		}
 
 		BeginDrawing();
-
-		// Updating
-		
-		
 
 		
 		// Checking for collision player 1
@@ -276,7 +264,7 @@ int main()
 		{
 		case MENU:
 
-			// Draw the ball moving horizontally with sinus wave
+			// Draw the ball with sinus wave
 			DrawCircle(sinusBallX, sinusBallY, 15, OrangeRed);
 
 			// Drawing text
@@ -294,7 +282,6 @@ int main()
 			break;
 
 		case GAMEPLAY_MULTI:
-			// Drawing game elements (player, ball, etc.)
 			DrawLine(value.screen_width / 2, 0, value.screen_width / 2, value.screen_height, GRAY);
 
 			//Updating
@@ -318,7 +305,6 @@ int main()
 			break;
 
 		case GAMEPLAY_CPU:
-			// Drawing game elements (player, ball, etc.)
 			DrawLine(value.screen_width / 2, 0, value.screen_width / 2, value.screen_height, GRAY);
 			
 			//Update

@@ -5,6 +5,7 @@
 #include "Paddle_CPU.h"
 #include "Blocks.h"
 #include "FunDrop.h"
+#include "Vector2d.h"
 
 #include <algorithm>
 #include <raylib.h>
@@ -22,20 +23,29 @@ public:
 
 	float x = 1400 / 2;
 	float y = 900 / 2;
-	int speed_x = 7;
-	int speed_y = 7;
+	float default_speed_x = 7;
+	float default_speed_y = 7;
+	float speed_x = 7;
+	float speed_y = 7;
 	Color drawColor = WHITE;
 	bool has_been_shot = false;
 	bool canBounce = true;
 
 
-	// Math variables
+	// ENLARGE_BALL
 	bool sizeAnimating = false;
 	float sizeAnimTime = 0.0f;
 
 	float animationDuration = 10.0f;   
 	int baseRadius = 15;               
 	int maxRadius = 30;                
+
+	// SPEED_BALL
+	Vector2d baseVelocity;   // Stores original speed vector
+	bool speedBoostActive = false;
+	float boostTimer = 0.0f;
+	float speedMultiplier = 1.0f;
+	float max_speed = 12.f;
 
 
 	Ball(int xPosition, int yPosition, Color ballColor)
@@ -53,10 +63,11 @@ public:
 	}
 
 
-	void SpeedIncrease()
+	void ApplySpeedBoost(float multiplier, float duration)
 	{
-		speed_x = 9;
-		speed_y = 9;
+		speedBoostActive = true;
+		speedMultiplier = multiplier;
+		boostTimer = duration;
 	}
 
 
@@ -67,6 +78,7 @@ public:
 
 	void Update(int& player_score, int& playerTwo_score, int heldPositionX, int heldPositionY)
 	{
+
 		//Updating for math Upgrades in FunDrop
 		if (sizeAnimating)
 		{
@@ -84,8 +96,7 @@ public:
 				sizeAnimating = false;
 			}
 
-			// Radius function
-			// r(t) = R0 + A * sin(pi * t / T)
+			// Radius function: r(t) = R0 + A * sin(pi * t / T)
 			radius = R0 + A * sinf(PI * t / T);
 		}
 
@@ -97,12 +108,40 @@ public:
 			return;
 		}
 
+		//SPEED_BALL
+		if (speedBoostActive)
+		{
+			boostTimer -= GetFrameTime();
+
+			// Scale the original base velocity
+			Vector2d boosted = baseVelocity.ScaleVector(speedMultiplier);
+			
+			speed_x = std::min(max_speed, std::max(boosted.x, -max_speed));
+			speed_y = std::min(max_speed, std::max(boosted.y, -max_speed));
+
+			if (boostTimer <= 0.0f)
+			{
+				speedBoostActive = false;
+				speedMultiplier = 1.0f;
+
+				// Restore original speed
+				speed_x = speed_x < 0 ?  -default_speed_x: default_speed_x;
+				speed_y = speed_y < 0 ? -default_speed_y: default_speed_y;
+			}
+		}
+
+		if (speed_y < -50 || speed_y > 50) {
+			float test = 2  ;
+		}
+
+
 		x += speed_x;
 		y += speed_y;
 
 		if (y + radius >= GetScreenHeight() || y - radius <= 0)
 		{
 			speed_y *= -1;;
+			baseVelocity = Vector2d(speed_x, speed_y);
 
 		}
 
@@ -157,6 +196,7 @@ public:
 			{
 				brick.active = false;
 				speed_y *= -1;
+				baseVelocity = Vector2d(speed_x, speed_y);
 			}
 
 
@@ -167,6 +207,7 @@ public:
 			{
 				brick.active = false;
 				speed_y *= -1;
+				baseVelocity = Vector2d(speed_x, speed_y);
 			}
 
 
@@ -177,6 +218,7 @@ public:
 			{
 				brick.active = false;
 				speed_x *= -1;
+				baseVelocity = Vector2d(speed_x, speed_y);
 
 				fundrop.Spawn(brick.position.x - blocks.brickWidth / 2, brick.position.y - blocks.brickHeight / 2, -1);
 
@@ -190,6 +232,7 @@ public:
 			{
 				brick.active = false;
 				speed_x *= -1;
+				baseVelocity = Vector2d(speed_x, speed_y);
 
 
 				fundrop.Spawn(brick.position.x - blocks.brickWidth / 2, brick.position.y - blocks.brickHeight / 2, 1);
@@ -205,7 +248,7 @@ public:
 
 	void Shoot()
 	{
-		
+		baseVelocity = Vector2d(speed_x, speed_y);
 		has_been_shot = true;
 
 	}
@@ -224,7 +267,7 @@ public:
 
 	}
 
-	// needs breakout reset position
+	// Reset position
 	void ResetBall(int heldPositionX, int heldPositionY)
 	{
 		has_been_shot = false;
@@ -232,9 +275,9 @@ public:
 		y = heldPositionY;
 		
 
-		int speed_choices[2] = { -1, 1 };
-		speed_x *= speed_choices[GetRandomValue(0, 1)];
-		speed_y *= speed_choices[GetRandomValue(0, 1)];
+		int speed_choices[2] = { -1, 1 }; //Where did it go?
+		speed_x = default_speed_x;
+		speed_y = default_speed_y;
 	}
 
 

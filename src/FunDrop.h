@@ -28,7 +28,7 @@ public:
 
 	float x = 1400 / 2;
 	float y = 900 / 2;
-	int speed_x = 6;
+	int speed_x = 5;
 	Color drawColor = PURPLE;
 	std::vector<Drop> drops;
 
@@ -39,5 +39,7 @@ public:
 	void Draw();
 
 	void Update();
+
+	void Reset();
 };
 

@@ -9,11 +9,6 @@
 #include <iostream>
 
 
-
-
-
-
-
 class Window
 {
 public:

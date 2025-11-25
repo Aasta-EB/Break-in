@@ -27,16 +27,16 @@ public:
 
 	float width = 25;
 	float height = 120;
-	float x = 1400 - 35; // Should have adaptable variables
+	float x = 1400 - 35; 
 	float y = 900 / 2 - 60;
 	float speed = 6;
 
-	//Variables for math related Upgrades
+	//Variables for math related FunDrops
 	bool sizeAnimating = false;
 	float sizeAnimTime = 0.0f;
 
-	float paddleBaseHeight = 120;    // H0
-	float paddleMaxHeight = 300;     // Hmax
+	float paddleBaseHeight = 120;
+	float paddleMaxHeight = 300;
 	float paddleAnimDuration = 10.0f;
 
 	
@@ -134,11 +134,10 @@ public:
 				ballTwo.StartEnlarge();
 				break;
 			case ENLARGE_PADDLE:
-				std::cout << "Paddle Enlarge Triggered!" << std::endl;
 				StartPaddleEnlarge();
 				break;
 			case SPEED_BALL:
-				ballTwo.SpeedIncrease();
+				ballTwo.ApplySpeedBoost(1.15f, 6.0f);
 				break;
 			case SPEED_OPPONENT:
 				playerTwo.Slowed();

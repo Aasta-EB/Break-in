@@ -52,7 +52,6 @@ public:
 			Brick currentBrix = bricks.at(index);
 			if (currentBrix.active)
 			{
-				//DrawRectangle(brick[i][j].position.x - brickSize.x / 2, brick[i][j].position.y - brickSize.y / 2, brickSize.x, brickSize.y, DARKGRAY)
 				DrawRectangle(currentBrix.position.x - brickWidth  / 2, currentBrix.position.y - brickHeight / 2, brickWidth, brickHeight, RED);
 			}
 		}
