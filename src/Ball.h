@@ -45,7 +45,7 @@ public:
 	bool speedBoostActive = false;
 	float boostTimer = 0.0f;
 	float speedMultiplier = 1.0f;
-	float max_speed = 12.f;
+	float max_speed = 9.f;
 
 
 	Ball(int xPosition, int yPosition, Color ballColor)
@@ -129,11 +129,6 @@ public:
 				speed_y = speed_y < 0 ? -default_speed_y: default_speed_y;
 			}
 		}
-
-		if (speed_y < -50 || speed_y > 50) {
-			float test = 2  ;
-		}
-
 
 		x += speed_x;
 		y += speed_y;
@@ -274,8 +269,6 @@ public:
 		x = heldPositionX;
 		y = heldPositionY;
 		
-
-		int speed_choices[2] = { -1, 1 }; //Where did it go?
 		speed_x = default_speed_x;
 		speed_y = default_speed_y;
 	}

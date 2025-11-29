@@ -123,6 +123,10 @@ int main()
 		case PAUSE_MULTI:
 			// Handle pause menu input
 			if (IsKeyPressed(KEY_SPACE)) currentGameState = GAMEPLAY_MULTI;
+			if (player_score == 0 or playerTwo_score == 0)
+			{
+				currentGameState = GAMEOVER;
+			}
 			break;
 
 		case PAUSE_CPU:
@@ -289,6 +293,8 @@ int main()
 			ball.Update(player_score, playerTwo_score, player.x - 20, player.y + player.height / 2);
 			playerTwo.Update();
 			ballTwo.Update(player_score, playerTwo_score, playerTwo.x + playerTwo.width + 20, playerTwo.y + playerTwo.height / 2);
+			fundrop.Update();
+			value.CheckFundropCollision();
 
 
 			//Drawing
@@ -297,6 +303,7 @@ int main()
 			ball.Draw();
 			ballTwo.Draw();
 			blocks.Draw();
+			fundrop.Draw();
 	
 
 			//Score text
@@ -313,6 +320,7 @@ int main()
 			cpu.Update();
 			ballTwo.Update(player_score, playerTwo_score, cpu.x + cpu.width + 20, cpu.y + cpu.height / 2);
 			fundrop.Update();
+			value.CheckFundropCollision();
 
 			//Drawing
 			player.Draw();

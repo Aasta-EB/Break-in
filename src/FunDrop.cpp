@@ -3,7 +3,7 @@
 FunUpgrade FunDrop::RandomUpgrade()
 {
 	FunUpgrade upgrade_choices[] = { ENLARGE_BALL, ENLARGE_PADDLE, SPEED_BALL, SPEED_OPPONENT, SPEED_SELF };
-	return upgrade_choices[GetRandomValue(0, 2)];
+	return upgrade_choices[GetRandomValue(1, 4)];
 }
 
 void FunDrop::Spawn(int blockX, int blockY, float direction)
