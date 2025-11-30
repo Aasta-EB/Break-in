@@ -60,8 +60,8 @@ int playerTwo_score = 6;
 // Resetting the game
 void ResetGame()
 {
-	player_score = 6;
-	playerTwo_score = 6;
+	player_score = 5;
+	playerTwo_score = 5;
 	ball.ResetBall(player.x - 50, player.y);
 	ballTwo.ResetBall(playerTwo.x + 50, playerTwo.y);
 	player.ResetPaddle();

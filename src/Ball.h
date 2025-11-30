@@ -56,6 +56,15 @@ public:
 
 	}
 
+	bool EndGameBallSpeed()
+	{
+		int totalBlocks = blocks.bricks.size();
+		int numberOfActiveBlocks = std::count_if(blocks.bricks.begin(), blocks.bricks.end(),
+			[](const Brick& b) { return b.active; });
+
+		return numberOfActiveBlocks < totalBlocks * 0.50;
+	}
+
 	void StartEnlarge()
 	{
 		sizeAnimating = true;
@@ -108,6 +117,14 @@ public:
 			return;
 		}
 
+		bool shouldUseEndgameSpeed = EndGameBallSpeed();
+		if (shouldUseEndgameSpeed)
+		{
+			// setting new speed
+			speed_x = speed_x < 0 ? -max_speed : max_speed;
+			speed_y = speed_y < 0 ? -max_speed : max_speed;
+		}
+
 		//SPEED_BALL
 		if (speedBoostActive)
 		{
@@ -125,15 +142,15 @@ public:
 				speedMultiplier = 1.0f;
 
 				// Restore original speed
-				speed_x = speed_x < 0 ?  -default_speed_x: default_speed_x;
+				speed_x = speed_x < 0 ? -default_speed_x: default_speed_x;
 				speed_y = speed_y < 0 ? -default_speed_y: default_speed_y;
 			}
 		}
-
+		
 		x += speed_x;
 		y += speed_y;
 
-		if (y + radius >= GetScreenHeight() || y - radius <= 0)
+		if (y + radius >= GetScreenHeight() || y - radius <= 0) 
 		{
 			speed_y *= -1;;
 			baseVelocity = Vector2d(speed_x, speed_y);
