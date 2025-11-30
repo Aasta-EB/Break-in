@@ -10,11 +10,7 @@
 #include "Paddle_CPU.h"
 #include "FunDrop.h"
 #include "Ball.h"
-
-
 using namespace std;
-
-
 
 //Classes
 Window value;
@@ -25,8 +21,6 @@ FunDrop fundrop;
 Ball ball(player.x - 50, player.y, OrangeRed);
 Ball ballTwo(playerTwo.x + 50, playerTwo.y, CornflowerBlue);
 Blocks blocks;
-
-
 
 int main()
 {
@@ -51,8 +45,6 @@ int main()
 		value.HandleGameStates();
 
 		EndDrawing();
-
-
 	}
 
 	CloseWindow();

@@ -298,40 +298,14 @@ void CheckPaddleCollision()
 	// Checking for collision player 1
 	if (CheckCollisionCircleRec(Vector2{ ball.x, ball.y }, ball.radius, Rectangle{ player.x, player.y, player.width, player.height }))
 	{
-		if (ball.Can_Bounce())
-		{
-			ball.speed_x *= -1;
-			ball.Toggle_Bounce();
-		}
-
+		ball.x = player.x - ball.radius;
+		ball.speed_x *= -1;
 	}
-	else
-	{
-		if (!ball.Can_Bounce())
-		{
-			ball.Toggle_Bounce();
-		}
-	}
-
 
 	if (CheckCollisionCircleRec(Vector2{ ballTwo.x, ballTwo.y }, ballTwo.radius, Rectangle{ player.x, player.y, player.width, player.height }))
 	{
-
-		if (ballTwo.Can_Bounce())
-		{
-			ballTwo.speed_x *= -1;
-			ballTwo.Toggle_Bounce();
-		}
-
-
-		else
-		{
-			if (!ballTwo.Can_Bounce())
-			{
-				ballTwo.Toggle_Bounce();
-			}
-		}
-
+		ballTwo.x = player.x - ball.radius;
+		ballTwo.speed_x *= -1;
 	}
 
 	if (currentGameState == GAMEPLAY_MULTI)
@@ -339,38 +313,19 @@ void CheckPaddleCollision()
 		// Checking for collision player 2
 		if (CheckCollisionCircleRec(Vector2{ ball.x, ball.y }, ball.radius, Rectangle{ playerTwo.x, playerTwo.y, playerTwo.width, playerTwo.height }))
 		{
-			if (ball.Can_Bounce())
-			{
-				ball.speed_x *= -1;
-				ball.Toggle_Bounce();
-			}
+			ball.x = playerTwo.x + playerTwo.width + ball.radius;
+			ball.speed_x *= -1;
+
 
 		}
-		else
-		{
-			if (!ball.Can_Bounce())
-			{
-				ball.Toggle_Bounce();
-			}
-		}
+
 
 
 		if (CheckCollisionCircleRec(Vector2{ ballTwo.x, ballTwo.y }, ballTwo.radius, Rectangle{ playerTwo.x, playerTwo.y, playerTwo.width, playerTwo.height }))
 		{
-			if (ballTwo.Can_Bounce())
-			{
-				ballTwo.speed_x *= -1;
-				ballTwo.Toggle_Bounce();
-			}
-
-
-			else
-			{
-				if (!ballTwo.Can_Bounce())
-				{
-					ballTwo.Toggle_Bounce();
-				}
-			}
+			ballTwo.x = playerTwo.x + playerTwo.width + ballTwo.radius;
+			ballTwo.speed_x *= -1;
+	
 		}
 	}
 
@@ -379,38 +334,17 @@ void CheckPaddleCollision()
 		// Checking for collision CPU
 		if (CheckCollisionCircleRec(Vector2{ ball.x, ball.y }, ball.radius, Rectangle{ cpu.x, cpu.y, cpu.width, cpu.height }))
 		{
-			if (ball.Can_Bounce())
-			{
-				ball.speed_x *= -1;
-				ball.Toggle_Bounce();
-			}
+			ball.x = cpu.x + cpu.width + ball.radius;
+			ball.speed_x *= -1;
 
-		}
-		else
-		{
-			if (!ball.Can_Bounce())
-			{
-				ball.Toggle_Bounce();
-			}
 		}
 
 
 		if (CheckCollisionCircleRec(Vector2{ ballTwo.x, ballTwo.y }, ballTwo.radius, Rectangle{ cpu.x, cpu.y, cpu.width, cpu.height }))
 		{
-			if (ballTwo.Can_Bounce())
-			{
-				ballTwo.speed_x *= -1;
-				ballTwo.Toggle_Bounce();
-			}
+			ballTwo.x = cpu.x + cpu.width + ballTwo.radius;
+			ballTwo.speed_x *= -1;
 
-
-			else
-			{
-				if (!ballTwo.Can_Bounce())
-				{
-					ballTwo.Toggle_Bounce();
-				}
-			}
 		}
 	}
 

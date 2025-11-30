@@ -25,11 +25,11 @@ public:
 	float y = 900 / 2;
 	float default_speed_x = 7;
 	float default_speed_y = 7;
-	float speed_x = 7;
-	float speed_y = 7;
+	float speed_x = default_speed_x;
+	float speed_y = default_speed_y;
 	Color drawColor = WHITE;
 	bool has_been_shot = false;
-	bool canBounce = true;
+
 
 
 	// ENLARGE_BALL
@@ -248,19 +248,7 @@ public:
 
 	}
 
-	bool Can_Bounce()
-	{
 
-		return canBounce;
-
-	}
-
-	void Toggle_Bounce()
-	{
-
-		canBounce = !canBounce;
-
-	}
 
 	// Reset position
 	void ResetBall(int heldPositionX, int heldPositionY)
