@@ -160,11 +160,16 @@ public:
 	}
 
 
-	void ResetPaddleTwo()
+	void ResetPaddle()
 	{
-		float x = 10;
-		float y = 900 / 2 - height / 2;
+		x = 10;
+		y = 900 / 2 - 60;
+		height = 120;
+		speed = 6;
 
+		paddleSize = false;
+		paddleSpeedUp = false;
+		paddleSlowDown = false;
 	}
 
 

@@ -159,9 +159,16 @@ public:
 
 	void ResetPaddleCPU()
 	{
-		float x = 10;
-		float y = 900 / 2 - height / 2;
+		x = 10;
+		y = 900 / 2 - height / 2;
 
+		height = 120;
+		speed = 6.25;
+
+		paddleSize = false;
+		paddleSpeedUp = false;
+		paddleSlowDown = false;
+		
 	}
 
 };

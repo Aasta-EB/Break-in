@@ -15,7 +15,9 @@
 enum GameState
 {
 	MENU, //single player or multiplayer
+	TUTORIAL_MULTI,
 	GAMEPLAY_MULTI,
+	TUTORIAL_CPU,
 	GAMEPLAY_CPU,
 	PAUSE_MULTI, //space to pause
 	PAUSE_CPU,
@@ -39,7 +41,10 @@ int screen_height = 900;
 //Color
 Color CornflowerBlue{ 100, 143, 255, 255 };
 Color OrangeRed{ 254, 97, 0, 255 };
-
+Color WarmYellow{ 255, 176, 0, 255 };
+Color Magenta{ 220, 38, 127 , 255 };
+Color DeepPurple{ 120, 94, 240, 255 };
+Color DarkMaroon{ 24, 0, 3, 255 };
 
 // Sinus-wave movement variables for Main-Menu
 float sinusBallX = 0.0f;
@@ -48,6 +53,11 @@ float amplitude = 100.0f;
 float frequency = 1.0f;
 float speed = 2.0f;
 float sinusTime = 0.0f;
+
+float tutorialMaxTimer = 15.0f;
+float tutorialStartTimer = 0.0f;
+bool showTutorial = false;
+
 
 class Window
 {
@@ -65,7 +75,7 @@ void ResetGame()
 	ball.ResetBall(player.x - 50, player.y);
 	ballTwo.ResetBall(playerTwo.x + 50, playerTwo.y);
 	player.ResetPaddle();
-	playerTwo.ResetPaddleTwo();
+	playerTwo.ResetPaddle();
 	cpu.ResetPaddleCPU();
 	blocks.initialize();
 	fundrop.Reset();
@@ -77,8 +87,8 @@ void CheckGameState()
 	{
 	case MENU:
 		// Handle menu input
-		if (IsKeyPressed(KEY_ENTER)) currentGameState = GAMEPLAY_MULTI;
-		if (IsKeyPressed(KEY_C)) currentGameState = GAMEPLAY_CPU;
+		if (IsKeyPressed(KEY_ENTER)) currentGameState = TUTORIAL_MULTI;
+		if (IsKeyPressed(KEY_C)) currentGameState = TUTORIAL_CPU;
 
 		sinusTime += GetFrameTime();
 		sinusBallX += speed;
@@ -91,10 +101,23 @@ void CheckGameState()
 		sinusBallY = (screen_height / 2) + amplitude * sinf(frequency * sinusTime);
 		break;
 
+
+	case TUTORIAL_MULTI:
+		DrawTutorial();
+		if (IsKeyPressed(KEY_M)) currentGameState = MENU;
+		if (IsKeyPressed(KEY_ENTER)) currentGameState = GAMEPLAY_MULTI;
+		break;
+
 	case GAMEPLAY_MULTI:
 		// Handle player input
 		if (IsKeyPressed(KEY_SPACE)) currentGameState = PAUSE_MULTI;
 		if (IsKeyPressed(KEY_M)) currentGameState = MENU;
+		break;
+
+	case TUTORIAL_CPU:
+		DrawTutorial();
+		if (IsKeyPressed(KEY_M)) currentGameState = MENU;
+		if (IsKeyPressed(KEY_ENTER)) currentGameState = GAMEPLAY_CPU;
 		break;
 
 	case GAMEPLAY_CPU:
@@ -136,24 +159,29 @@ void HandleGameStates()
 	case MENU:
 
 		// Draw the ball with sinus wave
-		DrawCircle(sinusBallX, sinusBallY, 15, OrangeRed);
+		DrawCircle(sinusBallX, sinusBallY, 15, CornflowerBlue);
 
 		// Drawing text
-		DrawText("-----------------------------------------", GetScreenWidth() / 2 - MeasureText("-----------------------------------------", 60) / 2, GetScreenHeight() / 2 - 360, 60, RED);
-		DrawText("-----------------------------------------", GetScreenWidth() / 2 - MeasureText("-----------------------------------------", 60) / 2, GetScreenHeight() / 2 - 350, 60, RED);
-		DrawText("BREAK - IN", GetScreenWidth() / 2 - MeasureText("BREAK - IN", 60) / 2, GetScreenHeight() / 2 - 270, 60, PURPLE);
-		DrawText("MAIN MENU", GetScreenWidth() / 2 - MeasureText("MAIN MENU", 40) / 2, GetScreenHeight() / 2 - 180, 40, RED);
+		DrawText("-----------------------------------------", GetScreenWidth() / 2 - MeasureText("-----------------------------------------", 60) / 2, GetScreenHeight() / 2 - 360, 60, WarmYellow);
+		DrawText("-----------------------------------------", GetScreenWidth() / 2 - MeasureText("-----------------------------------------", 60) / 2, GetScreenHeight() / 2 - 350, 60, OrangeRed);
+		DrawText("BREAK - IN", GetScreenWidth() / 2 - MeasureText("BREAK - IN", 60) / 2, GetScreenHeight() / 2 - 230, 60, Magenta);
+		DrawText("MAIN MENU", GetScreenWidth() / 2 - MeasureText("MAIN MENU", 40) / 2, GetScreenHeight() / 2 - 140, 40, DeepPurple);
 
-		DrawText("SINGLE PLAYER: PRESS C", GetScreenWidth() / 2 - MeasureText("SINGLE PLAYER: PRESS C", 30) / 2, GetScreenHeight() / 2 - 110, 30, WHITE);
-		DrawText("TWO PLAYER: PRESS ENTER", GetScreenWidth() / 2 - MeasureText("TWO PLAYER: PRESS ENTER", 30) / 2, GetScreenHeight() / 2 - 70, 30, WHITE);
-		DrawText("QUIT: PRESS ESCAPE", GetScreenWidth() / 2 - MeasureText("QUIT: PRESS ESCAPE", 30) / 2, GetScreenHeight() / 2 - 30, 30, WHITE);
+
+		DrawText("-----------------------------------------", GetScreenWidth() / 2 - MeasureText("-----------------------------------------", 60) / 2, GetScreenHeight() / 2 + 350, 60, OrangeRed);
+		DrawText("-----------------------------------------", GetScreenWidth() / 2 - MeasureText("-----------------------------------------", 60) / 2, GetScreenHeight() / 2 + 360, 60, WarmYellow);
+
+
+		DrawText("SINGLE PLAYER: PRESS C", GetScreenWidth() / 2 - MeasureText("SINGLE PLAYER: PRESS C", 30) / 2, GetScreenHeight() / 2 - 70, 30, WHITE);
+		DrawText("TWO PLAYER: PRESS ENTER", GetScreenWidth() / 2 - MeasureText("TWO PLAYER: PRESS ENTER", 30) / 2, GetScreenHeight() / 2 - 30, 30, WHITE);
+		DrawText("QUIT: PRESS ESCAPE", GetScreenWidth() / 2 - MeasureText("QUIT: PRESS ESCAPE", 30) / 2, GetScreenHeight() / 2 + 10, 30, WHITE);
 
 		//Reseting the game	
 		ResetGame();
 		break;
 
 	case GAMEPLAY_MULTI:
-		DrawLine(screen_width / 2, 0, screen_width / 2, screen_height, GRAY);
+		DrawLine(screen_width / 2, 0, screen_width / 2, screen_height, DeepPurple);
 
 		//Updating
 		player.Update();
@@ -179,7 +207,7 @@ void HandleGameStates()
 		break;
 
 	case GAMEPLAY_CPU:
-		DrawLine(screen_width / 2, 0, screen_width / 2, screen_height, GRAY);
+		DrawLine(screen_width / 2, 0, screen_width / 2, screen_height, DeepPurple);
 
 		//Update
 		player.Update();
@@ -350,7 +378,30 @@ void CheckPaddleCollision()
 
 }
 
+void DrawTutorial()
+{
+	if (currentGameState == TUTORIAL_CPU)
+	{
+		DrawText("Right player tutorial", GetScreenWidth() / 1.4 - MeasureText("Right player tutorial", 30) / 2, GetScreenHeight() / 2 - 120, 30, WarmYellow);
+		DrawText("Press Arrow UP or Arrow DOWN to move", GetScreenWidth() / 1.4 - MeasureText("Press Arrow UP or Arrow DOWN to move", 30) / 2, GetScreenHeight() / 2 - 80, 30, WHITE);
+		DrawText("Press Right SHIFT to shoot the ball", GetScreenWidth() / 1.4 - MeasureText("Press Right SHIFT to shoot the ball", 30) / 2, GetScreenHeight() / 2 - 40, 30, WHITE);
+		DrawText("Press ENTER to start the game", GetScreenWidth() / 2 - MeasureText("Press ENTER to start the game", 30) / 2, GetScreenHeight() / 2 + 300, 30, WHITE);
+	}
 
+	if (currentGameState == TUTORIAL_MULTI)
+	{
+		DrawText("Left player tutorial", GetScreenWidth() / 4 - MeasureText("Left player tutorial", 30) / 2, GetScreenHeight() / 2 - 120, 30, CornflowerBlue);
+		DrawText("Press W or S to move", GetScreenWidth() / 4 - MeasureText("Press W or S to move", 30) / 2, GetScreenHeight() / 2 - 80, 30, WHITE);
+		DrawText("Press Q to shoot the ball", GetScreenWidth() / 4 - MeasureText("Press Q to shoot the ball", 30) / 2, GetScreenHeight() / 2 - 40, 30, WHITE);
+
+
+		DrawText("Right player tutorial", GetScreenWidth() / 1.4 - MeasureText("Right player tutorial", 30) / 2, GetScreenHeight() / 2 - 120, 30, WarmYellow);
+		DrawText("Press Arrow UP or Arrow DOWN to move", GetScreenWidth() / 1.4 - MeasureText("Press Arrow UP or Arrow DOWN to move", 30) / 2, GetScreenHeight() / 2 - 80, 30, WHITE);
+		DrawText("Press Right SHIFT to shoot the ball", GetScreenWidth() / 1.4 - MeasureText("Press Right SHIFT to shoot the ball", 30) / 2, GetScreenHeight() / 2 - 40, 30, WHITE);
+
+		DrawText("Press ENTER to start the game", GetScreenWidth() / 2 - MeasureText("Press ENTER to start the game", 30) / 2, GetScreenHeight() / 2 + 300, 30, WHITE);
+	}
+}
 
 };
 

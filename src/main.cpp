@@ -2,7 +2,6 @@
 #include <iostream>
 #include <cmath> 
 
-
 #include "Window.h"
 #include "Blocks.h"
 #include "Paddle_1.h"
@@ -10,6 +9,7 @@
 #include "Paddle_CPU.h"
 #include "FunDrop.h"
 #include "Ball.h"
+
 using namespace std;
 
 //Classes
@@ -18,14 +18,12 @@ Paddle_1 player;
 Paddle_2 playerTwo;
 Paddle_CPU cpu;
 FunDrop fundrop;
-Ball ball(player.x - 50, player.y, OrangeRed);
+Ball ball(player.x - 50, player.y, WarmYellow);
 Ball ballTwo(playerTwo.x + 50, playerTwo.y, CornflowerBlue);
 Blocks blocks;
 
 int main()
 {
-
-	cout << "Starting the game" << endl;
 	InitWindow(screen_width, screen_height, "Break-in!");
 
 	SetTargetFPS(60);
@@ -40,7 +38,7 @@ int main()
 
 		value.CheckPaddleCollision();
 	
-		ClearBackground(BLACK);
+		ClearBackground(DarkMaroon);
 
 		value.HandleGameStates();
 

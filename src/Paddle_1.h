@@ -26,6 +26,7 @@ public:
 	//int speed
 
 	Color OrangeRed{ 254, 97, 0, 255 };
+	Color WarmYellow{ 255,176,0, 255 };
 
 	float width = 25;
 	float height = 120;
@@ -74,7 +75,7 @@ public:
 
 	void Draw()
 	{
-		DrawRectangleRounded(Rectangle{ x, y, width, height}, 0.8, 0, OrangeRed);
+		DrawRectangleRounded(Rectangle{ x, y, width, height}, 0.8, 0, WarmYellow);
 	}
 
 	void Update()
@@ -169,9 +170,14 @@ public:
 
 	void ResetPaddle()
 	{
-		float x = 1400 - 35; 
-		float y = 900 / 2 - 60;
+		x = 1400 - 35; 
+		y = 900 / 2 - 60;
+		height = 120;
+		speed = 6;
 
+		paddleSize = false;
+		paddleSpeedUp = false;
+		paddleSlowDown = false;
 	}
 
 

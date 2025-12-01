@@ -11,6 +11,9 @@
 #include <raylib.h>
 #include <iostream>
 
+extern Color OrangeRed;
+extern Color Magenta;
+
 typedef struct Brick {
 	Rectangle position;
 	bool active;
@@ -52,7 +55,7 @@ public:
 			Brick currentBrix = bricks.at(index);
 			if (currentBrix.active)
 			{
-				DrawRectangle(currentBrix.position.x - brickWidth  / 2, currentBrix.position.y - brickHeight / 2, brickWidth, brickHeight, RED);
+				DrawRectangle(currentBrix.position.x - brickWidth  / 2, currentBrix.position.y - brickHeight / 2, brickWidth, brickHeight, OrangeRed);
 			}
 		}
 	}
