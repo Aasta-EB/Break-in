@@ -21,6 +21,7 @@ enum FunUpgrade
 	SPEED_SELF
 };
 
+extern Color DeepPurple;
 
 class FunDrop
 { 
@@ -29,7 +30,7 @@ public:
 	float x = 1400 / 2;
 	float y = 900 / 2;
 	int speed_x = 5;
-	Color drawColor = PURPLE;
+	Color drawColor = DeepPurple;
 	std::vector<Drop> drops;
 
 	FunUpgrade RandomUpgrade();

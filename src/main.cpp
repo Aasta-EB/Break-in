@@ -2,7 +2,6 @@
 #include <iostream>
 #include <cmath> 
 
-
 #include "Window.h"
 #include "Blocks.h"
 #include "Paddle_1.h"
@@ -11,33 +10,7 @@
 #include "FunDrop.h"
 #include "Ball.h"
 
-
 using namespace std;
-
-
-//Game state
-enum GameState
-{
-	MENU, //single player or multiplayer
-	GAMEPLAY_MULTI,
-	GAMEPLAY_CPU,
-	PAUSE_MULTI, //space to pause
-	PAUSE_CPU,
-	GAMEOVER //go from gameover to menu
-};
-
-GameState currentGameState = MENU;
-
-
-
-//variables
-int player_score = 6;
-int playerTwo_score = 6;
-
-
-//Color
-Color CornflowerBlue{ 100, 143, 255, 255 };
-Color OrangeRed{ 254, 97, 0, 255 };
 
 //Classes
 Window value;
@@ -45,40 +18,13 @@ Paddle_1 player;
 Paddle_2 playerTwo;
 Paddle_CPU cpu;
 FunDrop fundrop;
-Ball ball(player.x - 50, player.y, OrangeRed);
+Ball ball(player.x - 50, player.y, WarmYellow);
 Ball ballTwo(playerTwo.x + 50, playerTwo.y, CornflowerBlue);
 Blocks blocks;
 
-
-// Sinus-wave movement variables for Main-Menu
-float sinusBallX = 0.0f;
-float sinusBallY = value.screen_height / 2;
-float amplitude = 100.0f;                    
-float frequency = 1.f;
-float speed = 2.0f;                         
-float sinusTime = 0.0f;
-
-
-// Resetting the game
-void ResetGame()
-{
-	player_score = 6;
-	playerTwo_score = 6;
-	ball.ResetBall(player.x - 50, player.y);
-	ballTwo.ResetBall(playerTwo.x + 50, playerTwo.y);
-	player.ResetPaddle();
-	playerTwo.ResetPaddleTwo();
-	cpu.ResetPaddleCPU();
-	blocks.initialize();
-	fundrop.Reset();
-}
-
-
 int main()
 {
-
-	cout << "Starting the game" << endl;
-	InitWindow(value.screen_width, value.screen_height, "Break-in!");
+	InitWindow(screen_width, screen_height, "Break-in!");
 
 	SetTargetFPS(60);
 
@@ -86,266 +32,17 @@ int main()
 
 	while (WindowShouldClose() == false)
 	{
-		switch (currentGameState)
-		{
-		case MENU:
-			// Handle menu input
-			if (IsKeyPressed(KEY_ENTER)) currentGameState = GAMEPLAY_MULTI;
-			if (IsKeyPressed(KEY_C)) currentGameState = GAMEPLAY_CPU;
-
-			sinusTime += GetFrameTime();
-			sinusBallX += speed;
-
-			// If the Sinus ball moves off the screen to the right, reseting its position to the left
-			if (sinusBallX > value.screen_width + 20)
-				sinusBallX = -20;
-
-			// Update y position of the ball
-			sinusBallY = (value.screen_height / 2) + amplitude * sinf(frequency * sinusTime);
-			break;
-	
-		case GAMEPLAY_MULTI:
-			// Handle player input
-			if (IsKeyPressed(KEY_SPACE)) currentGameState = PAUSE_MULTI;
-			if (IsKeyPressed(KEY_M)) currentGameState = MENU;
-			break;
-
-		case GAMEPLAY_CPU:
-			// Handle player input
-			if (IsKeyPressed(KEY_SPACE)) currentGameState = PAUSE_CPU;
-			if (IsKeyPressed(KEY_M)) currentGameState = MENU;
-			if (player_score == 0 or playerTwo_score == 0)
-			{
-				currentGameState = GAMEOVER;
-			}
-			break;
-
-		case PAUSE_MULTI:
-			// Handle pause menu input
-			if (IsKeyPressed(KEY_SPACE)) currentGameState = GAMEPLAY_MULTI;
-			break;
-
-		case PAUSE_CPU:
-			// Handle pause menu input
-			if (IsKeyPressed(KEY_SPACE)) currentGameState = GAMEPLAY_CPU;
-			break;
-
-		case GAMEOVER:
-			// Display gameover screen, sends player to Main Menu
-			if (IsKeyPressed(KEY_M)) currentGameState = MENU;
-			break;
-		}
+		value.CheckGameState();
 
 		BeginDrawing();
 
-		
-		// Checking for collision player 1
-		if (CheckCollisionCircleRec(Vector2{ ball.x, ball.y }, ball.radius, Rectangle{ player.x, player.y, player.width, player.height }))
-		{
-			if (ball.Can_Bounce())
-			{
-				ball.speed_x *= -1;
-				ball.Toggle_Bounce();
-			}
-			
-		}
-		else
-		{
-			if (!ball.Can_Bounce())
-			{
-				ball.Toggle_Bounce();
-			}
-		}
-
-
-		if (CheckCollisionCircleRec(Vector2{ ballTwo.x, ballTwo.y }, ballTwo.radius, Rectangle{ player.x, player.y, player.width, player.height }))
-		{
+		value.CheckPaddleCollision();
 	
-				if (ballTwo.Can_Bounce())
-				{
-					ballTwo.speed_x *= -1;
-					ballTwo.Toggle_Bounce();
-				}
-
-		
-		else
-		{
-			if (!ballTwo.Can_Bounce())
-			{
-				ballTwo.Toggle_Bounce();
-			}
-		}
-
-		}
-
-		if (currentGameState == GAMEPLAY_MULTI)
-		{
-		// Checking for collision player 2
-		if (CheckCollisionCircleRec(Vector2{ ball.x, ball.y }, ball.radius, Rectangle{ playerTwo.x, playerTwo.y, playerTwo.width, playerTwo.height }))
-		{
-			if (ball.Can_Bounce())
-			{
-				ball.speed_x *= -1;
-				ball.Toggle_Bounce();
-			}
-
-		}
-		else
-		{
-			if (!ball.Can_Bounce())
-			{
-				ball.Toggle_Bounce();
-			}
-		}
-
-
-		if (CheckCollisionCircleRec(Vector2{ ballTwo.x, ballTwo.y }, ballTwo.radius, Rectangle{ playerTwo.x, playerTwo.y, playerTwo.width, playerTwo.height }))
-		{
-			if (ballTwo.Can_Bounce())
-			{
-				ballTwo.speed_x *= -1;
-				ballTwo.Toggle_Bounce();
-			}
-
-
-			else
-			{
-				if (!ballTwo.Can_Bounce())
-				{
-					ballTwo.Toggle_Bounce();
-				}
-			}
-		}
-		}
-		
-		if (currentGameState == GAMEPLAY_CPU)
-		{ 
-		// Checking for collision CPU
-		if (CheckCollisionCircleRec(Vector2{ ball.x, ball.y }, ball.radius, Rectangle{ cpu.x, cpu.y, cpu.width, cpu.height }))
-		{
-			if (ball.Can_Bounce())
-			{
-				ball.speed_x *= -1;
-				ball.Toggle_Bounce();
-			}
-
-		}
-		else
-		{
-			if (!ball.Can_Bounce())
-			{
-				ball.Toggle_Bounce();
-			}
-		}
-
-
-		if (CheckCollisionCircleRec(Vector2{ ballTwo.x, ballTwo.y }, ballTwo.radius, Rectangle{cpu.x, cpu.y, cpu.width, cpu.height }))
-		{
-			if (ballTwo.Can_Bounce())
-			{
-				ballTwo.speed_x *= -1;
-				ballTwo.Toggle_Bounce();
-			}
-
-
-			else
-			{
-				if (!ballTwo.Can_Bounce())
-				{
-					ballTwo.Toggle_Bounce();
-				}
-			}
-		}
-		}
-
 		ClearBackground(BLACK);
 
-		switch (currentGameState)
-		{
-		case MENU:
-
-			// Draw the ball with sinus wave
-			DrawCircle(sinusBallX, sinusBallY, 15, OrangeRed);
-
-			// Drawing text
-			DrawText("-----------------------------------------", GetScreenWidth() / 2 - MeasureText("-----------------------------------------", 60) / 2, GetScreenHeight() / 2 - 360, 60, RED);
-			DrawText("-----------------------------------------", GetScreenWidth() / 2 - MeasureText("-----------------------------------------", 60) / 2, GetScreenHeight() / 2 - 350, 60, RED);
-			DrawText("BREAK - IN", GetScreenWidth() / 2 - MeasureText("BREAK - IN", 60) / 2, GetScreenHeight() / 2 - 270, 60, PURPLE);
-			DrawText("MAIN MENU", GetScreenWidth() / 2 - MeasureText("MAIN MENU", 40) / 2, GetScreenHeight() / 2 - 180, 40, RED);
-
-			DrawText("SINGLE PLAYER: PRESS C", GetScreenWidth() / 2 - MeasureText("SINGLE PLAYER: PRESS C", 30) / 2, GetScreenHeight() / 2 - 110, 30, WHITE);
-			DrawText("TWO PLAYER: PRESS ENTER", GetScreenWidth() / 2 - MeasureText("TWO PLAYER: PRESS ENTER", 30) / 2, GetScreenHeight() / 2 - 70, 30, WHITE);
-			DrawText("QUIT: PRESS ESCAPE", GetScreenWidth() / 2 - MeasureText("QUIT: PRESS ESCAPE", 30) / 2, GetScreenHeight() / 2 - 30, 30, WHITE);
-
-			//Reseting the game	
-			ResetGame();
-			break;
-
-		case GAMEPLAY_MULTI:
-			DrawLine(value.screen_width / 2, 0, value.screen_width / 2, value.screen_height, GRAY);
-
-			//Updating
-			player.Update();
-			ball.Update(player_score, playerTwo_score, player.x - 20, player.y + player.height / 2);
-			playerTwo.Update();
-			ballTwo.Update(player_score, playerTwo_score, playerTwo.x + playerTwo.width + 20, playerTwo.y + playerTwo.height / 2);
-
-
-			//Drawing
-			player.Draw();
-			playerTwo.Draw();
-			ball.Draw();
-			ballTwo.Draw();
-			blocks.Draw();
-	
-
-			//Score text
-			DrawText(TextFormat("%i", playerTwo_score), value.screen_width / 4 - 20, 20, 80, WHITE);
-			DrawText(TextFormat("%i", player_score), 3 * value.screen_width / 4 - 20, 20, 80, WHITE);
-			break;
-
-		case GAMEPLAY_CPU:
-			DrawLine(value.screen_width / 2, 0, value.screen_width / 2, value.screen_height, GRAY);
-			
-			//Update
-			player.Update();
-			ball.Update(player_score, playerTwo_score, player.x - 20, player.y + player.height / 2);
-			cpu.Update();
-			ballTwo.Update(player_score, playerTwo_score, cpu.x + cpu.width + 20, cpu.y + cpu.height / 2);
-			fundrop.Update();
-
-			//Drawing
-			player.Draw();
-			cpu.Draw();
-			ball.Draw();
-			ballTwo.Draw();
-			blocks.Draw();
-			fundrop.Draw();
-
-			//Score text
-			DrawText(TextFormat("%i", playerTwo_score), value.screen_width / 4 - 20, 20, 80, WHITE);
-			DrawText(TextFormat("%i", player_score), 3 * value.screen_width / 4 - 20, 20, 80, WHITE);
-			break;
-
-		case PAUSE_MULTI:
-			DrawText("Paused", GetScreenWidth() / 2 - MeasureText("Paused", 20) / 2, GetScreenHeight() / 2, 20, WHITE);
-			DrawText("Press SPACE to continue", GetScreenWidth() / 2 - MeasureText("Press SPACE to continue", 20) / 2, GetScreenHeight() / 2 + 30, 20, GRAY);
-			break;
-
-		case PAUSE_CPU:
-			DrawText("Paused", GetScreenWidth() / 2 - MeasureText("Paused", 20) / 2, GetScreenHeight() / 2, 20, WHITE);
-			DrawText("Press SPACE to continue", GetScreenWidth() / 2 - MeasureText("Press SPACE to continue", 20) / 2, GetScreenHeight() / 2 + 30, 20, GRAY);
-			break;
-
-		case GAMEOVER:
-			DrawText("Game Over! Press M to go to MAIN MENU", GetScreenWidth() / 2 - MeasureText("Game Over! Press M to go to MAIN MENU", 20) / 2, GetScreenHeight() / 2, 20, WHITE);
-			break;
-		}
-
+		value.HandleGameStates();
 
 		EndDrawing();
-
-
 	}
 
 	CloseWindow();

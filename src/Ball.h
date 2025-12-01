@@ -25,11 +25,11 @@ public:
 	float y = 900 / 2;
 	float default_speed_x = 7;
 	float default_speed_y = 7;
-	float speed_x = 7;
-	float speed_y = 7;
+	float speed_x = default_speed_x;
+	float speed_y = default_speed_y;
 	Color drawColor = WHITE;
 	bool has_been_shot = false;
-	bool canBounce = true;
+
 
 
 	// ENLARGE_BALL
@@ -45,7 +45,7 @@ public:
 	bool speedBoostActive = false;
 	float boostTimer = 0.0f;
 	float speedMultiplier = 1.0f;
-	float max_speed = 12.f;
+	float max_speed = 9.f;
 
 
 	Ball(int xPosition, int yPosition, Color ballColor)
@@ -54,6 +54,15 @@ public:
 		y = yPosition;
 		drawColor = ballColor;
 
+	}
+
+	bool EndGameBallSpeed()
+	{
+		int totalBlocks = blocks.bricks.size();
+		int numberOfActiveBlocks = std::count_if(blocks.bricks.begin(), blocks.bricks.end(),
+			[](const Brick& b) { return b.active; });
+
+		return numberOfActiveBlocks < totalBlocks * 0.50;
 	}
 
 	void StartEnlarge()
@@ -79,25 +88,22 @@ public:
 	void Update(int& player_score, int& playerTwo_score, int heldPositionX, int heldPositionY)
 	{
 
-		//Updating for math Upgrades in FunDrop
+		// Handle growth animation for FunDrop
 		if (sizeAnimating)
 		{
 			sizeAnimTime += GetFrameTime();
 
 			float t = sizeAnimTime;
-			float T = animationDuration;
-			float R0 = baseRadius;
-			float Rmax = maxRadius;
-			float A = Rmax - R0;
-
-			if (t >= T)
+			if (t >= animationDuration)
 			{
-				t = T;
+				t = animationDuration;
 				sizeAnimating = false;
 			}
 
-			// Radius function: r(t) = R0 + A * sin(pi * t / T)
-			radius = R0 + A * sinf(PI * t / T);
+			float progress = t / animationDuration;
+			float amount = std::sinf(progress * PI);
+
+			radius = baseRadius + (maxRadius - baseRadius) * amount;
 		}
 
 		// Shooting the ball
@@ -106,6 +112,14 @@ public:
 			x = heldPositionX;
 			y = heldPositionY;
 			return;
+		}
+
+		bool shouldUseEndgameSpeed = EndGameBallSpeed();
+		if (shouldUseEndgameSpeed)
+		{
+			// setting new speed
+			speed_x = speed_x < 0 ? -max_speed : max_speed;
+			speed_y = speed_y < 0 ? -max_speed : max_speed;
 		}
 
 		//SPEED_BALL
@@ -125,20 +139,15 @@ public:
 				speedMultiplier = 1.0f;
 
 				// Restore original speed
-				speed_x = speed_x < 0 ?  -default_speed_x: default_speed_x;
+				speed_x = speed_x < 0 ? -default_speed_x: default_speed_x;
 				speed_y = speed_y < 0 ? -default_speed_y: default_speed_y;
 			}
 		}
-
-		if (speed_y < -50 || speed_y > 50) {
-			float test = 2  ;
-		}
-
-
+		
 		x += speed_x;
 		y += speed_y;
 
-		if (y + radius >= GetScreenHeight() || y - radius <= 0)
+		if (y + radius >= GetScreenHeight() || y - radius <= 0) 
 		{
 			speed_y *= -1;;
 			baseVelocity = Vector2d(speed_x, speed_y);
@@ -253,19 +262,7 @@ public:
 
 	}
 
-	bool Can_Bounce()
-	{
 
-		return canBounce;
-
-	}
-
-	void Toggle_Bounce()
-	{
-
-		canBounce = !canBounce;
-
-	}
 
 	// Reset position
 	void ResetBall(int heldPositionX, int heldPositionY)
@@ -274,8 +271,6 @@ public:
 		x = heldPositionX;
 		y = heldPositionY;
 		
-
-		int speed_choices[2] = { -1, 1 }; //Where did it go?
 		speed_x = default_speed_x;
 		speed_y = default_speed_y;
 	}
