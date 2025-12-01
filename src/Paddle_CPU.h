@@ -90,27 +90,23 @@ public:
 			}
 		}
 
-		// Paddle Size upgrade animation
+
 		if (paddleSize)
 		{
 			AnimTime += GetFrameTime();
 
 			float t = AnimTime;
-			float T = paddleEnlargeDuration;
-			float H0 = paddleBaseHeight;
-			float Hmax = paddleMaxHeight;
-			float A = Hmax - H0;
-
-			if (t >= T)
+			if (t >= paddleEnlargeDuration)
 			{
-				t = T;
+				t = paddleEnlargeDuration;
 				paddleSize = false;
 			}
 
-			// h(t) = H0 + A * sin(pi * t / T)
-			height = H0 + A * sinf(PI * (t / T));
+			float progress = t / paddleEnlargeDuration;
+			float amount = std::sinf(progress * PI);
 
-			// Re-center the paddle during animation
+			height = paddleBaseHeight + (paddleMaxHeight - paddleBaseHeight) * amount;
+
 			if (AnimTime < GetFrameTime())
 			{
 				y -= 0.5f * (height - paddleBaseHeight);

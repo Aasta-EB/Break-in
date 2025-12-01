@@ -88,25 +88,22 @@ public:
 	void Update(int& player_score, int& playerTwo_score, int heldPositionX, int heldPositionY)
 	{
 
-		//Updating for math Upgrades in FunDrop
+		// Handle growth animation for FunDrop
 		if (sizeAnimating)
 		{
 			sizeAnimTime += GetFrameTime();
 
 			float t = sizeAnimTime;
-			float T = animationDuration;
-			float R0 = baseRadius;
-			float Rmax = maxRadius;
-			float A = Rmax - R0;
-
-			if (t >= T)
+			if (t >= animationDuration)
 			{
-				t = T;
+				t = animationDuration;
 				sizeAnimating = false;
 			}
 
-			// Radius function: r(t) = R0 + A * sin(pi * t / T)
-			radius = R0 + A * sinf(PI * t / T);
+			float progress = t / animationDuration;
+			float amount = std::sinf(progress * PI);
+
+			radius = baseRadius + (maxRadius - baseRadius) * amount;
 		}
 
 		// Shooting the ball

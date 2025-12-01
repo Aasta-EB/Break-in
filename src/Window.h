@@ -112,6 +112,10 @@ void CheckGameState()
 		// Handle player input
 		if (IsKeyPressed(KEY_SPACE)) currentGameState = PAUSE_MULTI;
 		if (IsKeyPressed(KEY_M)) currentGameState = MENU;
+		if (player_score == 0 or playerTwo_score == 0)
+		{
+			currentGameState = GAMEOVER;
+		}
 		break;
 
 	case TUTORIAL_CPU:
@@ -133,10 +137,6 @@ void CheckGameState()
 	case PAUSE_MULTI:
 		// Handle pause menu input
 		if (IsKeyPressed(KEY_SPACE)) currentGameState = GAMEPLAY_MULTI;
-		if (player_score == 0 or playerTwo_score == 0)
-		{
-			currentGameState = GAMEOVER;
-		}
 		break;
 
 	case PAUSE_CPU:
@@ -242,6 +242,15 @@ void HandleGameStates()
 
 	case GAMEOVER:
 		DrawText("Game Over! Press M to go to MAIN MENU", GetScreenWidth() / 2 - MeasureText("Game Over! Press M to go to MAIN MENU", 20) / 2, GetScreenHeight() / 2, 20, WHITE);
+		if (playerTwo_score == 0)
+		{
+			DrawText("Right Player Wins", GetScreenWidth() / 2 - MeasureText("Right Player Wins", 60) / 2, GetScreenHeight() / 2 - 100, 60, WarmYellow);
+		}
+		if (player_score == 0)
+		{
+			DrawText("Left Player Wins", GetScreenWidth() / 2 - MeasureText("Left Player Wins", 60) / 2, GetScreenHeight() / 2 - 100, 60, CornflowerBlue);
+		}
+
 		break;
 	}
 

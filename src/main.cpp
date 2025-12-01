@@ -38,7 +38,7 @@ int main()
 
 		value.CheckPaddleCollision();
 	
-		ClearBackground(DarkMaroon);
+		ClearBackground(BLACK);
 
 		value.HandleGameStates();
 
